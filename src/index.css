@@ -71,11 +71,22 @@
   filter: drop-shadow(0 8px 12px rgba(0, 150, 136, 0.25));
   transform: perspective(600px) rotateX(6deg) rotateY(-6deg) scale(1.1);
 }
-/* Empêche toute bordure résiduelle dans le hero */
-.hero-no-border, .hero-no-border * { border: 0 !important; }
-/* Empêche une bordure résiduelle quand le header est transparent */
-header.border-transparent { border-color: transparent !important; }
-
-/* Améliore le rendu sticky (Chrome/WebKit) */
-header { transform: translateZ(0); backface-visibility: hidden; }
+/* Masque 2px en bas du hero pour tuer toute “hairline” */
+.hero-seamless::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px; height: 2px;
+  /* dégradé quasi transparent pour couvrir la couture */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0));
+  pointer-events: none;
 }
+
+/* Isolation GPU pour éviter les coutures entre calques */
+header, section, footer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Empêche une bordure entre deux sections adjacentes */
+section + section { border-top: none !important; }
+} 
