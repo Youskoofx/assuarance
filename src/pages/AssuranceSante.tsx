@@ -1,5 +1,4 @@
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Shield, Heart, Users, CheckCircle } from 'lucide-react';
@@ -159,7 +158,7 @@ export default function AssuranceSante() {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 }
