@@ -13,7 +13,7 @@ const MesContrats = lazy(() => import("./pages/MesContrats"));
 const MesDocuments = lazy(() => import("./pages/MesDocuments"));
 const MonProfil = lazy(() => import("./pages/MonProfil"));
 
-/* ===== Lazy Pages - Assurances ===== */
+/* ===== Lazy Pages - Assurances Particuliers & IARD ===== */
 const IARD = lazy(() => import("./pages/IARD"));
 const AssuranceMoto = lazy(() => import("./pages/AssuranceMoto"));
 const AssuranceAuto = lazy(() => import("./pages/AssuranceAuto"));
@@ -21,7 +21,13 @@ const AssuranceHabitation = lazy(() => import("./pages/AssuranceHabitation"));
 const AssuranceSante = lazy(() => import("./pages/AssuranceSante"));
 const AssurancePrevoyance = lazy(() => import("./pages/AssurancePrevoyance"));
 const Animaux = lazy(() => import("./pages/Animaux"));
-// const ResponsabiliteCivile = lazy(() => import("./pages/ResponsabiliteCivile"));
+
+/* ===== Lazy Pages - PRO ===== */
+const SanteTNS = lazy(() => import("./pages/SanteTNS"));
+const PrevoyancePro = lazy(() => import("./pages/PrevoyancePro"));
+const MultirisquePro = lazy(() => import("./pages/MultirisquePro"));
+const FlotteAuto = lazy(() => import("./pages/FlotteAuto"));
+const RCPro = lazy(() => import("./pages/RCPro"));
 
 /* ===== Lazy Pages - Informations publiques ===== */
 const QuiSommesNous = lazy(() => import("./pages/QuiSommesNous"));
@@ -44,7 +50,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 function App() {
   return (
     <>
-      {/* Scroll vers le haut à chaque changement de route */}
+      {/* Scroll automatique vers le haut à chaque navigation */}
       <ScrollToTop />
 
       <Suspense
@@ -55,7 +61,7 @@ function App() {
         }
       >
         <Routes>
-          {/* Layout global : Header + Footer + ChatWidget */}
+          {/* Layout global : Header + Footer */}
           <Route element={<Layout />}>
             {/* ==== Pages Publiques ==== */}
             <Route path="/" element={<Home />} />
@@ -64,7 +70,10 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
-            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+            <Route
+              path="/politique-confidentialite"
+              element={<PolitiqueConfidentialite />}
+            />
             <Route path="/cgu" element={<CGU />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/accessibilite" element={<Accessibilite />} />
@@ -72,6 +81,13 @@ function App() {
             {/* ==== Blog ==== */}
             <Route path="/actualites" element={<Actualites />} />
             <Route path="/actualites/:slug" element={<Article />} />
+
+            {/* ==== Pages PRO ==== */}
+            <Route path="/pro/sante-tns" element={<SanteTNS />} />
+            <Route path="/pro/prevoyance-pro" element={<PrevoyancePro />} />
+            <Route path="/pro/multirisque" element={<MultirisquePro />} />
+            <Route path="/pro/flotte-auto" element={<FlotteAuto />} />
+            <Route path="/pro/rc-pro" element={<RCPro />} />
 
             {/* ==== Espace Client ==== */}
             <Route path="/espace-client" element={<EspaceClient />} />
@@ -113,14 +129,15 @@ function App() {
             <Route path="/iard/moto" element={<AssuranceMoto />} />
             <Route path="/iard/auto" element={<AssuranceAuto />} />
             <Route path="/iard/habitation" element={<AssuranceHabitation />} />
-            {/* <Route path="/iard/responsabilite-civile" element={<ResponsabiliteCivile />} /> */}
 
-            {/* ==== Aliases /particuliers/iard pour compatibilité ==== */}
+            {/* ==== Aliases /particuliers/iard ==== */}
             <Route path="/particuliers/iard" element={<IARD />} />
             <Route path="/particuliers/iard/moto" element={<AssuranceMoto />} />
             <Route path="/particuliers/iard/auto" element={<AssuranceAuto />} />
-            <Route path="/particuliers/iard/habitation" element={<AssuranceHabitation />} />
-            {/* <Route path="/particuliers/iard/responsabilite-civile" element={<ResponsabiliteCivile />} /> */}
+            <Route
+              path="/particuliers/iard/habitation"
+              element={<AssuranceHabitation />}
+            />
             <Route
               path="/particuliers/iard/*"
               element={<Navigate to="/iard" replace />}
@@ -128,12 +145,15 @@ function App() {
 
             {/* ==== Assurances Particuliers ==== */}
             <Route path="/particuliers/sante" element={<AssuranceSante />} />
-            <Route path="/particuliers/prevoyance" element={<AssurancePrevoyance />} />
+            <Route
+              path="/particuliers/prevoyance"
+              element={<AssurancePrevoyance />}
+            />
 
             {/* ==== Animaux ==== */}
             <Route path="/animaux" element={<Animaux />} />
 
-            {/* ==== 404 ==== */}
+            {/* ==== Page 404 ==== */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
