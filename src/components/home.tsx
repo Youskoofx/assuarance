@@ -7,7 +7,7 @@ import Statistics from './Statistics';
 import PartnerCarousel from './PartnerCarousel';
 import FAQTestimonials from './FAQTestimonials';
 import NewsSection from './NewsSection';
-import Footer from './Footer';
+
 
 function Home() {
   return (
@@ -27,7 +27,7 @@ function Home() {
         <FAQTestimonials />
         <NewsSection />
       </main>
-      <Footer />
+   
     </motion.div>
   );
 }

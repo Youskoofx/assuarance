@@ -71,4 +71,11 @@
   filter: drop-shadow(0 8px 12px rgba(0, 150, 136, 0.25));
   transform: perspective(600px) rotateX(6deg) rotateY(-6deg) scale(1.1);
 }
+/* Empêche toute bordure résiduelle dans le hero */
+.hero-no-border, .hero-no-border * { border: 0 !important; }
+/* Empêche une bordure résiduelle quand le header est transparent */
+header.border-transparent { border-color: transparent !important; }
+
+/* Améliore le rendu sticky (Chrome/WebKit) */
+header { transform: translateZ(0); backface-visibility: hidden; }
 }
