@@ -18,6 +18,7 @@ const AssuranceAuto = lazy(() => import("./pages/AssuranceAuto"));
 const AssuranceHabitation = lazy(() => import("./pages/AssuranceHabitation"));
 const AssuranceSante = lazy(() => import("./pages/AssuranceSante"));
 const AssurancePrevoyance = lazy(() => import("./pages/AssurancePrevoyance"));
+const Animaux = lazy(() => import("./pages/Animaux")); // 👈 ajout ici
 
 /* ===== Lazy Pages - Informations publiques ===== */
 const QuiSommesNous = lazy(() => import("./pages/QuiSommesNous"));
@@ -108,6 +109,7 @@ function App() {
             <Route path="/iard/habitation" element={<AssuranceHabitation />} />
             <Route path="/particuliers/sante" element={<AssuranceSante />} />
             <Route path="/particuliers/prevoyance" element={<AssurancePrevoyance />} />
+            <Route path="/animaux" element={<Animaux />} /> {/* 👈 ajout ici */}
 
             {/* ==== Page non trouvée ==== */}
             <Route path="*" element={<NotFound />} />

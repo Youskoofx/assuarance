@@ -21,7 +21,7 @@ export default function Contact() {
     telephone: '',
     sujet: '',
     message: '',
-    rgpd: false
+    rgpd: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,16 +29,14 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert({
-          nom: formData.nom,
-          prenom: formData.prenom,
-          email: formData.email,
-          telephone: formData.telephone,
-          sujet: formData.sujet,
-          message: formData.message
-        });
+      const { error } = await supabase.from('contact_messages').insert({
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        telephone: formData.telephone,
+        sujet: formData.sujet,
+        message: formData.message,
+      });
 
       if (error) throw error;
 
@@ -50,7 +48,7 @@ export default function Contact() {
         telephone: '',
         sujet: '',
         message: '',
-        rgpd: false
+        rgpd: false,
       });
     } catch (error) {
       console.error('Error:', error);
@@ -62,28 +60,41 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
-      {/* Hero */}
-      <section className="h-[50vh] bg-gradient-to-r from-teal-500 to-cyan-600 flex flex-col justify-center px-8 text-white">
-        <div className="max-w-7xl mx-auto w-full">
-          <nav className="text-white/70 text-sm mb-4">
-            <Link to="/" className="hover:text-white">Accueil</Link> / <span className="text-white">Contact</span>
+
+      {/* 🖼️ Hero avec image */}
+      <section
+        className="relative h-[60vh] flex flex-col justify-center px-8 text-white overflow-hidden"
+        style={{
+          backgroundImage:
+            "url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 max-w-7xl mx-auto w-full">
+          <nav className="text-white/80 text-sm mb-4">
+            <Link to="/" className="hover:text-white">Accueil</Link> / <span>Contact</span>
           </nav>
           <h1 className="text-5xl font-bold mb-4">Contactez-nous</h1>
           <p className="text-xl text-white/90 max-w-3xl">
-            Notre équipe est à votre écoute pour répondre à toutes vos questions
+            Notre équipe est à votre écoute pour répondre à toutes vos questions et vous accompagner.
           </p>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-20 px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* ✉️ Section Contact */}
+      <section
+        className="py-20 px-8 bg-slate-50 relative"
+        
+      >
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
+        <div className="relative max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Formulaire */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-2xl shadow-2xl p-8">
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Envoyez-nous un message</h2>
-              
+
               {success && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
                   Merci ! Votre message a été envoyé. Nous vous répondrons sous 24h.
@@ -97,7 +108,7 @@ export default function Contact() {
                     <Input
                       id="nom"
                       value={formData.nom}
-                      onChange={(e) => setFormData({...formData, nom: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
                       required
                       className="border-slate-300 focus:ring-2 focus:ring-teal-500"
                     />
@@ -107,7 +118,7 @@ export default function Contact() {
                     <Input
                       id="prenom"
                       value={formData.prenom}
-                      onChange={(e) => setFormData({...formData, prenom: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
                       required
                       className="border-slate-300 focus:ring-2 focus:ring-teal-500"
                     />
@@ -120,7 +131,7 @@ export default function Contact() {
                     id="email"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
                     className="border-slate-300 focus:ring-2 focus:ring-teal-500"
                   />
@@ -132,7 +143,7 @@ export default function Contact() {
                     id="telephone"
                     type="tel"
                     value={formData.telephone}
-                    onChange={(e) => setFormData({...formData, telephone: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
                     required
                     className="border-slate-300 focus:ring-2 focus:ring-teal-500"
                   />
@@ -143,7 +154,7 @@ export default function Contact() {
                   <Input
                     id="sujet"
                     value={formData.sujet}
-                    onChange={(e) => setFormData({...formData, sujet: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, sujet: e.target.value })}
                     required
                     className="border-slate-300 focus:ring-2 focus:ring-teal-500"
                   />
@@ -154,7 +165,7 @@ export default function Contact() {
                   <Textarea
                     id="message"
                     value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
                     rows={6}
                     className="border-slate-300 focus:ring-2 focus:ring-teal-500"
@@ -165,7 +176,7 @@ export default function Contact() {
                   <Checkbox
                     id="rgpd"
                     checked={formData.rgpd}
-                    onCheckedChange={(checked) => setFormData({...formData, rgpd: checked as boolean})}
+                    onCheckedChange={(checked) => setFormData({ ...formData, rgpd: checked as boolean })}
                     required
                   />
                   <Label htmlFor="rgpd" className="text-sm text-slate-600 leading-relaxed cursor-pointer">
@@ -190,7 +201,7 @@ export default function Contact() {
 
             {/* Informations */}
             <div className="space-y-8">
-              <div className="bg-slate-50 rounded-2xl p-8">
+              <div className="bg-white rounded-2xl shadow-2xl p-8">
                 <h3 className="text-2xl font-bold text-slate-900 mb-6">Nos coordonnées</h3>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
@@ -240,7 +251,7 @@ export default function Contact() {
               </div>
 
               {/* Google Maps */}
-              <div className="bg-slate-50 rounded-2xl p-8">
+              <div className="bg-white rounded-2xl shadow-2xl p-8">
                 <h3 className="text-2xl font-bold text-slate-900 mb-6">Nous trouver</h3>
                 <div className="rounded-xl overflow-hidden shadow-lg">
                   <iframe
@@ -259,7 +270,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <Footer />
+   
     </div>
   );
 }
