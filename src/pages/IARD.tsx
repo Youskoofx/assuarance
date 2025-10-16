@@ -116,7 +116,7 @@ export default function IARD() {
         </div>
       </section>
 
-      <Footer />
+     
     </div>
   );
 }

@@ -107,8 +107,7 @@ export default function SantePage() {
           </Button>
         </div>
       </section>
-
-      <Footer />
+     
     </div>
   );
 }

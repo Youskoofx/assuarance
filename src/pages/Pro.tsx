@@ -219,7 +219,7 @@ export default function Pro() {
         </div>
       </section>
 
-      <Footer />
+     
     </div>
   );
 }

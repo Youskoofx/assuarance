@@ -210,8 +210,7 @@ export default function Actualites() {
           )}
         </div>
       </section>
-
-      <Footer />
+   
     </div>
   );
 }

@@ -181,8 +181,6 @@ export default function Particuliers() {
           </Button>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

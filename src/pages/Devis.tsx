@@ -345,7 +345,6 @@ export default function Devis() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }
