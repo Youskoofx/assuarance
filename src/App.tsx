@@ -1,3 +1,4 @@
+// src/App.tsx
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/home";
@@ -18,7 +19,7 @@ const AssuranceAuto = lazy(() => import("./pages/AssuranceAuto"));
 const AssuranceHabitation = lazy(() => import("./pages/AssuranceHabitation"));
 const AssuranceSante = lazy(() => import("./pages/AssuranceSante"));
 const AssurancePrevoyance = lazy(() => import("./pages/AssurancePrevoyance"));
-const Animaux = lazy(() => import("./pages/Animaux")); // 👈 ajout ici
+const Animaux = lazy(() => import("./pages/Animaux"));
 
 /* ===== Lazy Pages - Informations publiques ===== */
 const QuiSommesNous = lazy(() => import("./pages/QuiSommesNous"));
@@ -29,6 +30,7 @@ const PolitiqueConfidentialite = lazy(() => import("./pages/PolitiqueConfidentia
 const CGU = lazy(() => import("./pages/CGU"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Accessibilite = lazy(() => import("./pages/Accessibilite"));
+const Devis = lazy(() => import("./pages/Devis"));
 
 /* ===== Lazy Pages - Blog ===== */
 const Actualites = lazy(() => import("./pages/Actualites"));
@@ -37,7 +39,6 @@ const Article = lazy(() => import("./pages/Article"));
 /* ===== Lazy Page - 404 ===== */
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-/* ===== APP ===== */
 function App() {
   return (
     <>
@@ -51,10 +52,11 @@ function App() {
         }
       >
         <Routes>
-          {/* Layout global avec Header + Footer */}
+          {/* Layout global : Header + Footer + ChatWidget */}
           <Route element={<Layout />}>
             {/* ==== Pages Publiques ==== */}
             <Route path="/" element={<Home />} />
+            <Route path="/devis" element={<Devis />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
@@ -68,7 +70,7 @@ function App() {
             <Route path="/actualites" element={<Actualites />} />
             <Route path="/actualites/:slug" element={<Article />} />
 
-            {/* ==== Espace Client ==== */}
+            {/* ==== Espace Client (public + protégé) ==== */}
             <Route path="/espace-client" element={<EspaceClient />} />
             <Route
               path="/espace-client/dashboard"
@@ -109,9 +111,9 @@ function App() {
             <Route path="/iard/habitation" element={<AssuranceHabitation />} />
             <Route path="/particuliers/sante" element={<AssuranceSante />} />
             <Route path="/particuliers/prevoyance" element={<AssurancePrevoyance />} />
-            <Route path="/animaux" element={<Animaux />} /> {/* 👈 ajout ici */}
+            <Route path="/animaux" element={<Animaux />} />
 
-            {/* ==== Page non trouvée ==== */}
+            {/* ==== 404 ==== */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
