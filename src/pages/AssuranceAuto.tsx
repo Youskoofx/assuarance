@@ -15,6 +15,37 @@ import {
   Sparkles,
 } from "lucide-react";
 
+/** ====== Fond vidéo plein écran, SANS image fallback ====== */
+function FullscreenVimeoBg({
+  videoId = "1127830767",
+}: {
+  videoId?: string;
+}) {
+  const src = `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&controls=0`;
+  return (
+    <>
+      {/* Vidéo Vimeo en background */}
+      <iframe
+        className="fixed inset-0 h-full w-full -z-20"
+        src={src}
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        title="Background video"
+        style={{ pointerEvents: "none" }}
+      />
+      {/* Overlay pour lisibilité */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-black/60 via-black/55 to-black/60" />
+      {/* Accessibilité : si motion réduit, on masque la vidéo */}
+      <style>{`
+        @media (prefers-reduced-motion: reduce) {
+          iframe[title="Background video"] { display: none; }
+          /* on garde l'overlay pour fond sombre propre */
+        }
+      `}</style>
+    </>
+  );
+}
+
 export default function AssuranceAuto() {
   const features = [
     {
@@ -43,22 +74,13 @@ export default function AssuranceAuto() {
     {
       badge: "Essentiel",
       title: "Formule Tiers",
-      points: [
-        "Responsabilité civile obligatoire",
-        "Défense & recours",
-        "Assistance de base",
-      ],
+      points: ["Responsabilité civile obligatoire", "Défense & recours", "Assistance de base"],
       highlight: "Idéal pour petits budgets et véhicules anciens.",
     },
     {
       badge: "Populaire",
       title: "Formule Tiers +",
-      points: [
-        "Bris de glace",
-        "Vol & incendie",
-        "Catastrophes naturelles",
-        "Assistance 0 km (option)",
-      ],
+      points: ["Bris de glace", "Vol & incendie", "Catastrophes naturelles", "Assistance 0 km (option)"],
       highlight: "Excellent compromis garanties / coût.",
       popular: true,
     },
@@ -75,10 +97,7 @@ export default function AssuranceAuto() {
   ];
 
   const steps = [
-    {
-      title: "1. Votre besoin",
-      text: "Dites-nous comment vous roulez (usage, stationnement, bonus/malus, etc.).",
-    },
+    { title: "1. Votre besoin", text: "Dites-nous comment vous roulez (usage, stationnement, bonus/malus, etc.)." },
     { title: "2. Comparaison", text: "Nous comparons rapidement de nombreux assureurs partenaires." },
     { title: "3. Recommandation", text: "Vous recevez une proposition claire et personnalisée." },
     { title: "4. Souscription", text: "Signature simple et 100% en ligne, carte verte immédiate." },
@@ -104,91 +123,60 @@ export default function AssuranceAuto() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* HERO — vidéo Vimeo en arrière-plan */}
-      <section className="relative h-[68vh] min-h-[480px] w-full overflow-hidden">
-        {/* Vidéo Vimeo en background */}
-        <div className="absolute inset-0 -z-10">
-          <iframe
-            src="https://player.vimeo.com/video/1127830767?background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&controls=0"
-            className="h-full w-full"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-            title="Voiture en mouvement — Hero video"
-          />
-        </div>
+    <div className="relative min-h-screen text-white">
+      {/* Vidéo plein écran derrière TOUTE la page */}
+      <FullscreenVimeoBg videoId="1127830767" />
 
-        {/* Fallback (si iframe bloque le chargement) */}
-        <div
-          className="absolute inset-0 -z-20 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1483721310020-03333e577078?q=80&w=1920&auto=format&fit=crop)",
-          }}
-        />
+      {/* HERO compact */}
+      <section className="px-8 pb-10 pt-28 md:pt-36">
+        <div className="mx-auto max-w-7xl">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold backdrop-blur">
+            <Sparkles className="h-4 w-4" />
+            Devis gratuit • Réponse sous 2h
+          </div>
+          <h1 className="mt-4 text-4xl font-extrabold leading-[1.1] drop-shadow md:text-6xl">
+            Assurance Auto
+          </h1>
+          <p className="mt-3 max-w-2xl text-lg text-white/90 md:text-xl">
+            Roulez en toute sérénité : des garanties claires, une assistance réactive et des démarches simplifiées.
+          </p>
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/60" />
-
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-8">
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur">
-              <Sparkles className="h-4 w-4" />
-              Devis gratuit • Réponse sous 2h
-            </div>
-            <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] text-white drop-shadow md:text-6xl">
-              Assurance Auto
-            </h1>
-            <p className="max-w-2xl text-lg text-white/90 md:text-xl">
-              Roulez en toute sérénité : des garanties claires, une assistance réactive et des
-              démarches simplifiées.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="bg-white text-slate-900 hover:bg-slate-100 font-bold"
-              >
-                <Link to="/devis" className="flex items-center gap-2">
-                  Demander un devis
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-2 border-white text-white hover:bg-white/10"
-              >
-                <Link to="/contact">Parler à un conseiller</Link>
-              </Button>
-            </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold">
+              <Link to="/devis" className="flex items-center gap-2">
+                Demander un devis
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10">
+              <Link to="/contact">Parler à un conseiller</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Avantages clés */}
-      <section className="px-8 py-16 md:py-20">
+      {/* Avantages — cartes translucides */}
+      <section className="px-8 py-12 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
           {features.map((f) => (
             <div
               key={f.title}
-              className="rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg"
+              className="rounded-2xl border border-white/25 bg-white/15 p-6 shadow-2xl backdrop-blur-md transition hover:bg-white/20"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100">
-                <f.icon className="h-6 w-6 text-teal-700" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/25">
+                <f.icon className="h-6 w-6 text-white" />
               </div>
-              <h3 className="mb-2 text-lg font-bold text-slate-900">{f.title}</h3>
-              <p className="text-slate-600">{f.desc}</p>
+              <h3 className="mb-2 text-lg font-bold">{f.title}</h3>
+              <p className="text-white/95">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Formules (sans prix) */}
-      <section className="bg-slate-50 px-8 py-20">
+      <section className="px-8 py-16">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 md:text-4xl">
+          <h2 className="mb-10 text-center text-3xl font-bold md:text-4xl drop-shadow">
             Des formules adaptées à votre voiture
           </h2>
 
@@ -196,27 +184,27 @@ export default function AssuranceAuto() {
             {formulas.map((f) => (
               <article
                 key={f.title}
-                className={`relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl ${
-                  f.popular ? "ring-2 ring-teal-500" : ""
+                className={`relative rounded-2xl border border-white/25 bg-white/15 p-8 shadow-2xl backdrop-blur-md transition hover:-translate-y-1 hover:bg-white/20 ${
+                  f.popular ? "ring-2 ring-teal-400/70" : ""
                 }`}
               >
                 {f.popular && (
-                  <span className="absolute -top-3 left-6 rounded-full bg-teal-600 px-3 py-1 text-xs font-bold text-white">
+                  <span className="absolute -top-3 left-6 rounded-full bg-teal-500/90 px-3 py-1 text-xs font-bold backdrop-blur">
                     Le plus choisi
                   </span>
                 )}
-                <div className="mb-2 text-sm font-semibold text-teal-600">{f.badge}</div>
-                <h3 className="mb-4 text-2xl font-bold text-slate-900">{f.title}</h3>
+                <div className="mb-2 text-sm font-semibold text-teal-200">{f.badge}</div>
+                <h3 className="mb-4 text-2xl font-bold">{f.title}</h3>
                 <ul className="mb-6 space-y-3">
                   {f.points.map((p) => (
-                    <li key={p} className="flex items-start gap-2 text-slate-700">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 text-teal-600" />
-                      {p}
+                    <li key={p} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 text-teal-300" />
+                      <span className="text-white/95">{p}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="mb-6 text-sm text-slate-600">{f.highlight}</p>
-                <Button asChild className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+                <p className="mb-6 text-sm text-white/85">{f.highlight}</p>
+                <Button asChild className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-xl">
                   <Link to="/devis">Recevoir une proposition</Link>
                 </Button>
               </article>
@@ -225,37 +213,31 @@ export default function AssuranceAuto() {
         </div>
       </section>
 
-      {/* Processus simple */}
-      <section className="px-8 py-20">
+      {/* Processus */}
+      <section className="px-8 py-16">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-            Comment ça marche ?
-          </h2>
+          <h2 className="mb-10 text-center text-3xl font-bold md:text-4xl drop-shadow">Comment ça marche ?</h2>
 
           <div className="grid gap-6 md:grid-cols-4">
             {steps.map((s, i) => (
-              <div key={s.title} className="rounded-2xl border border-slate-200 p-6">
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-bold text-white">
+              <div key={s.title} className="rounded-2xl border border-white/25 bg-white/15 p-6 backdrop-blur-md">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/25 font-bold">
                   {i + 1}
                 </div>
-                <p className="mb-1 font-semibold text-slate-900">{s.title}</p>
-                <p className="text-slate-600 text-sm">{s.text}</p>
+                <p className="mb-1 font-semibold">{s.title}</p>
+                <p className="text-white/90 text-sm">{s.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Documents nécessaires */}
-      <section className="bg-slate-50 px-8 py-20">
+      {/* Documents */}
+      <section className="px-8 py-16">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 text-3xl font-bold text-slate-900 md:text-4xl">
-              Documents à prévoir
-            </h2>
-            <p className="mb-10 text-slate-600">
-              Pour une souscription rapide, préparez ces éléments :
-            </p>
+            <h2 className="mb-6 text-3xl font-bold md:text-4xl drop-shadow">Documents à prévoir</h2>
+            <p className="mb-10 text-white/90">Pour une souscription rapide, préparez ces éléments :</p>
           </div>
 
           <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
@@ -265,11 +247,14 @@ export default function AssuranceAuto() {
               { title: "Relevé d’information (bonus/malus)", icon: Gauge },
               { title: "RIB pour le prélèvement", icon: Lock },
             ].map((d) => (
-              <div key={d.title} className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-teal-100">
-                  <d.icon className="h-6 w-6 text-teal-700" />
+              <div
+                key={d.title}
+                className="flex items-center gap-4 rounded-xl border border-white/25 bg-white/15 p-4 backdrop-blur-md"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white/25">
+                  <d.icon className="h-6 w-6" />
                 </div>
-                <p className="font-medium text-slate-800">{d.title}</p>
+                <p className="font-medium">{d.title}</p>
               </div>
             ))}
           </div>
@@ -277,26 +262,21 @@ export default function AssuranceAuto() {
       </section>
 
       {/* FAQ */}
-      <section className="px-8 py-20">
+      <section className="px-8 py-16">
         <div className="mx-auto max-w-4xl">
-          <h2 className="mb-10 text-center text-3xl font-bold text-slate-900 md:text-4xl">
-            Questions fréquentes
-          </h2>
+          <h2 className="mb-10 text-center text-3xl font-bold md:text-4xl drop-shadow">Questions fréquentes</h2>
 
-          <div className="space-y-4">
+        <div className="space-y-4">
             {faqs.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-xl border border-slate-200 bg-white p-6 transition hover:shadow-sm"
-              >
+              <details key={f.q} className="group rounded-xl border border-white/25 bg-white/15 p-6 backdrop-blur-md">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <HelpCircle className="h-5 w-5 text-teal-600" />
-                    <span className="font-semibold text-slate-900">{f.q}</span>
+                    <HelpCircle className="h-5 w-5 text-teal-200" />
+                    <span className="font-semibold">{f.q}</span>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-slate-400 transition group-open:rotate-90" />
+                  <ArrowRight className="h-4 w-4 text-white/70 transition group-open:rotate-90" />
                 </summary>
-                <p className="mt-3 text-slate-600">{f.a}</p>
+                <p className="mt-3 text-white/90">{f.a}</p>
               </details>
             ))}
           </div>
@@ -304,20 +284,13 @@ export default function AssuranceAuto() {
       </section>
 
       {/* CTA finale */}
-      <section className="bg-gradient-to-r from-teal-600 to-cyan-600 px-8 py-20">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-            Prêt à rouler sereinement ?
-          </h2>
+      <section className="px-8 pb-24">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-white/25 bg-white/15 p-10 text-center shadow-2xl backdrop-blur-md">
+          <h2 className="mb-3 text-3xl font-bold md:text-4xl drop-shadow">Prêt à rouler sereinement ?</h2>
           <p className="mx-auto mb-8 max-w-2xl text-white/90">
-            Recevez votre devis personnalisé en quelques minutes. Aucune avance à payer, sans
-            engagement.
+            Recevez votre devis personnalisé en quelques minutes. Sans engagement.
           </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-white text-slate-900 hover:bg-slate-100 font-bold"
-          >
+          <Button asChild size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold">
             <Link to="/devis" className="flex items-center justify-center gap-2">
               Demander un devis gratuit
               <ArrowRight className="h-5 w-5" />
