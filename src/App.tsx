@@ -1,6 +1,6 @@
 // src/App.tsx
 import { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
@@ -14,12 +14,14 @@ const MesDocuments = lazy(() => import("./pages/MesDocuments"));
 const MonProfil = lazy(() => import("./pages/MonProfil"));
 
 /* ===== Lazy Pages - Assurances ===== */
+const IARD = lazy(() => import("./pages/IARD"));
 const AssuranceMoto = lazy(() => import("./pages/AssuranceMoto"));
 const AssuranceAuto = lazy(() => import("./pages/AssuranceAuto"));
 const AssuranceHabitation = lazy(() => import("./pages/AssuranceHabitation"));
 const AssuranceSante = lazy(() => import("./pages/AssuranceSante"));
 const AssurancePrevoyance = lazy(() => import("./pages/AssurancePrevoyance"));
 const Animaux = lazy(() => import("./pages/Animaux"));
+// const ResponsabiliteCivile = lazy(() => import("./pages/ResponsabiliteCivile"));
 
 /* ===== Lazy Pages - Informations publiques ===== */
 const QuiSommesNous = lazy(() => import("./pages/QuiSommesNous"));
@@ -42,6 +44,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 function App() {
   return (
     <>
+      {/* Scroll vers le haut à chaque changement de route */}
       <ScrollToTop />
 
       <Suspense
@@ -70,7 +73,7 @@ function App() {
             <Route path="/actualites" element={<Actualites />} />
             <Route path="/actualites/:slug" element={<Article />} />
 
-            {/* ==== Espace Client (public + protégé) ==== */}
+            {/* ==== Espace Client ==== */}
             <Route path="/espace-client" element={<EspaceClient />} />
             <Route
               path="/espace-client/dashboard"
@@ -105,12 +108,29 @@ function App() {
               }
             />
 
-            {/* ==== Assurances ==== */}
+            {/* ==== Assurances IARD ==== */}
+            <Route path="/iard" element={<IARD />} />
             <Route path="/iard/moto" element={<AssuranceMoto />} />
             <Route path="/iard/auto" element={<AssuranceAuto />} />
             <Route path="/iard/habitation" element={<AssuranceHabitation />} />
+            {/* <Route path="/iard/responsabilite-civile" element={<ResponsabiliteCivile />} /> */}
+
+            {/* ==== Aliases /particuliers/iard pour compatibilité ==== */}
+            <Route path="/particuliers/iard" element={<IARD />} />
+            <Route path="/particuliers/iard/moto" element={<AssuranceMoto />} />
+            <Route path="/particuliers/iard/auto" element={<AssuranceAuto />} />
+            <Route path="/particuliers/iard/habitation" element={<AssuranceHabitation />} />
+            {/* <Route path="/particuliers/iard/responsabilite-civile" element={<ResponsabiliteCivile />} /> */}
+            <Route
+              path="/particuliers/iard/*"
+              element={<Navigate to="/iard" replace />}
+            />
+
+            {/* ==== Assurances Particuliers ==== */}
             <Route path="/particuliers/sante" element={<AssuranceSante />} />
             <Route path="/particuliers/prevoyance" element={<AssurancePrevoyance />} />
+
+            {/* ==== Animaux ==== */}
             <Route path="/animaux" element={<Animaux />} />
 
             {/* ==== 404 ==== */}
