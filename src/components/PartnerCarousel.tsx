@@ -1,22 +1,22 @@
 import { motion } from 'framer-motion';
 
 const partners = [
-  'Malakoff Humanis',
-  'Allianz',
-  'April',
-  'Aesio Mutuelle',
-  'Alptis',
-  'SwissLife',
-  'Zephir',
-  'Solly Azar',
-  'Netvox',
-  'Néoliane',
-  'Maxance',
+  { name: 'Malakoff Humanis', logo: '/logos/malakoff.png' },
+  { name: 'Allianz', logo: '/logos/allianz.png' },
+  { name: 'April', logo: '/logos/april.png' },
+  { name: 'Aesio Mutuelle', logo: '/logos/aesio.png' },
+  { name: 'Alptis', logo: '/logos/alptis.png' },
+  { name: 'SwissLife', logo: '/logos/swisslife.png' },
+  { name: 'Zephir', logo: '/logos/zephir.png' },
+  { name: 'Solly Azar', logo: '/logos/sollyazar.png' },
+  { name: 'Netvox', logo: '/logos/netvox.png' },
+  { name: 'Néoliane', logo: '/logos/neoliane.png' },
+  { name: 'Maxance', logo: '/logos/maxance.png' },
 ];
 
 export default function PartnerCarousel() {
   return (
-    <section className="py-24 bg-slate-50 overflow-hidden">
+    <section className="py-24 bg-transparent backdrop-blur-0 overflow-hidden">
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
         <motion.div
@@ -29,9 +29,7 @@ export default function PartnerCarousel() {
           <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
             Nos partenaires de confiance
           </h2>
-          <p className="text-gray-600 text-xl">
-            Votre garantie de qualité
-          </p>
+          <p className="text-gray-600 text-xl">Votre garantie de qualité</p>
         </motion.div>
 
         {/* Infinite Slider */}
@@ -39,35 +37,32 @@ export default function PartnerCarousel() {
           <div className="overflow-hidden">
             <motion.div
               className="flex items-center gap-16"
-              animate={{
-                x: [0, -1800],
-              }}
+              animate={{ x: [0, -1800] }}
               transition={{
-                x: {
-                  duration: 40,
-                  repeat: Infinity,
-                  ease: "linear",
-                },
+                x: { duration: 40, repeat: Infinity, ease: 'linear' },
               }}
               style={{ width: 'max-content' }}
             >
-              {/* First set */}
-              {partners.map((partner, index) => (
-                <div
-                  key={`first-${index}`}
-                  className="flex-shrink-0 h-16 w-32 bg-slate-200 rounded-lg flex items-center justify-center font-semibold text-slate-600 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+              {[...partners, ...partners].map((partner, index) => (
+                <motion.div
+                  key={index}
+                  className="flex-shrink-0 flex items-center justify-center"
+                  whileHover={{
+                    scale: 1.1,
+                    rotateX: 8,
+                    rotateY: -8,
+                    rotateZ: 0,
+                    transition: { duration: 0.4, ease: 'easeOut' },
+                  }}
                 >
-                  {partner}
-                </div>
-              ))}
-              {/* Second set for seamless loop */}
-              {partners.map((partner, index) => (
-                <div
-                  key={`second-${index}`}
-                  className="flex-shrink-0 h-16 w-32 bg-slate-200 rounded-lg flex items-center justify-center font-semibold text-slate-600 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
-                >
-                  {partner}
-                </div>
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    title={partner.name}
+                    className="h-14 w-auto object-contain drop-shadow-lg transition-all duration-500"
+                    loading="lazy"
+                  />
+                </motion.div>
               ))}
             </motion.div>
           </div>
