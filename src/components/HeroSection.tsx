@@ -14,25 +14,33 @@ export default function HeroSection() {
         }}
       />
       
-      {/* Gradient léger sur les bords uniquement */}
+      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-8 relative z-10 text-center">
         {/* Main Title */}
         <motion.h1
-          className="text-white text-6xl lg:text-8xl font-bold leading-tight mb-6"
+          className="text-white text-5xl md:text-6xl lg:text-8xl font-bold leading-tight mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0 }}
+          transition={{ duration: 0.6 }}
         >
           Votre courtier d'assurances à{' '}
           <span className="text-teal-400">Gennevilliers</span>
         </motion.h1>
 
+        {/* White Horizontal Line */}
+        <motion.div
+          className="w-32 h-1 bg-white mx-auto mb-6"
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        />
+
         {/* Subtitle */}
         <motion.p
-          className="text-gray-100 text-xl max-w-3xl mx-auto leading-relaxed mb-12"
+          className="text-gray-100 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -49,7 +57,7 @@ export default function HeroSection() {
         >
           <Button 
             size="lg"
-            className="bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 text-white text-lg px-8 py-6 rounded-xl shadow-2xl hover:shadow-teal-500/50 hover:scale-105 active:scale-95 transition-all duration-200"
+            className="bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 text-white text-lg px-8 py-6 rounded-xl shadow-2xl hover:shadow-teal-500/50 hover:scale-105 transition-all"
             asChild
           >
             <Link to="/devis" className="flex items-center gap-2">
@@ -60,7 +68,7 @@ export default function HeroSection() {
           <Button 
             size="lg"
             variant="outline"
-            className="border-2 border-white/50 text-white hover:bg-white/10 text-lg px-8 py-6 rounded-xl backdrop-blur-sm transition-all duration-200"
+            className="border-2 border-white/50 text-white hover:bg-white/10 text-lg px-8 py-6 rounded-xl backdrop-blur-sm transition-all"
             asChild
           >
             <Link to="#services">Découvrir nos services</Link>
