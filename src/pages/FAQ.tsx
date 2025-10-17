@@ -120,7 +120,7 @@ const FAQ_PAGE: FAQMap = {
     {
       question: "Vos services sont-ils payants ?",
       answer:
-        "Nos conseils et l’accompagnement sont inclus dans notre activité de courtage avec nos partenaires.",
+        "Oui, nous appliquons des frais de dossier lors de la souscription. Leur montant varie en fonction du type de contrat choisi.",
     },
     {
       question: "Puis-je gérer mes contrats en ligne ?",
