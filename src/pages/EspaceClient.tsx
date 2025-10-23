@@ -20,6 +20,7 @@ import {
   Info,
   Loader2,
 } from "lucide-react";
+import { isAdminUser } from "@/components/AdminRoute";
 
 /* ───────────────────────────────────────────────────────────── */
 
@@ -111,7 +112,12 @@ export default function EspaceClient() {
     setLoading(true);
     try {
       if (mode === "login") {
-        await signIn(form.email, form.password, { remember });
+        const loggedUser = await signIn(form.email, form.password);
+        const destination = isAdminUser(loggedUser ?? null)
+          ? "/admin"
+          : "/espace-client/dashboard";
+        navigate(destination);
+        return;
       } else {
         await signUp(form.email, form.password, {
           prenom: form.prenom,

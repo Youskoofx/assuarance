@@ -5,6 +5,7 @@ import Home from "./components/home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
+import AdminRoute from "./components/AdminRoute";
 
 /* ===== Lazy Pages - Espace Client ===== */
 const EspaceClient = lazy(() => import("./pages/EspaceClient"));
@@ -12,6 +13,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const MesContrats = lazy(() => import("./pages/MesContrats"));
 const MesDocuments = lazy(() => import("./pages/MesDocuments"));
 const MonProfil = lazy(() => import("./pages/MonProfil"));
+const Admin = lazy(() => import("./pages/Admin"));
 
 /* ===== Lazy Pages - Assurances Particuliers & IARD ===== */
 const IARD = lazy(() => import("./pages/IARD"));
@@ -120,6 +122,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MonProfil />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminRoute>
+                    <Admin />
+                  </AdminRoute>
                 </ProtectedRoute>
               }
             />

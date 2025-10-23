@@ -162,6 +162,7 @@ export type Database = {
           id: string
           nom: string | null
           prenom: string | null
+          role: string | null
           telephone: string | null
           ville: string | null
         }
@@ -174,6 +175,7 @@ export type Database = {
           id?: string
           nom?: string | null
           prenom?: string | null
+          role?: string | null
           telephone?: string | null
           ville?: string | null
         }
@@ -186,6 +188,7 @@ export type Database = {
           id?: string
           nom?: string | null
           prenom?: string | null
+          role?: string | null
           telephone?: string | null
           ville?: string | null
         }

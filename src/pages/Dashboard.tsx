@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
-import { FileText, FolderOpen, MessageSquare, Home, User, LogOut } from 'lucide-react'
+import { FileText, FolderOpen, MessageSquare, Home, User, LogOut, Shield } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { isAdminUser } from '@/components/AdminRoute'
 
 export default function Dashboard() {
   const { user, signOut } = useAuth()
@@ -10,6 +11,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState({ contrats: 0, documents: 0, demandes: 0 })
   const [contrats, setContrats] = useState<any[]>([])
   const [documents, setDocuments] = useState<any[]>([])
+  const isAdmin = isAdminUser(user)
 
   useEffect(() => {
     if (user) {
@@ -76,6 +78,12 @@ export default function Dashboard() {
               <User className="w-5 h-5" />
               <span>Mon profil</span>
             </Link>
+            {isAdmin && (
+              <Link to="/admin" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-lg">
+                <Shield className="w-5 h-5" />
+                <span>Espace admin</span>
+              </Link>
+            )}
             <button onClick={handleSignOut} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-lg w-full text-left">
               <LogOut className="w-5 h-5" />
               <span>Déconnexion</span>
