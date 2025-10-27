@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Calendar, User, Tag, Share2, Facebook, Twitter, Linkedin, ArrowRight } from 'lucide-react';
 
@@ -210,8 +211,7 @@ export default function Article() {
           </div>
         </div>
       </section>
-
-      
+     
     </div>
   );
 }

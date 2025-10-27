@@ -1,10 +1,12 @@
 // src/components/HeroSection.tsx
 import { motion, useReducedMotion } from "framer-motion";
+import { useRef, useState /*, useEffect*/ } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
-type HeroSectionProps = {
+export type HeroSectionProps = {
   city?: string;
   bgImageUrl?: string;
   /**
@@ -16,35 +18,55 @@ type HeroSectionProps = {
 
 export default function HeroSection({
   city = "Gennevilliers",
-  bgImageUrl = "https://images.pexels.com/photos/4262010/pexels-photo-4262010.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  bgImageUrl = "/images/hero.jpeg",
   headerHeight = 88, // ~logo + padding
 }: HeroSectionProps) {
   const prefersReducedMotion = useReducedMotion();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+
+  // Si l'URL de l'image change dynamiquement et que tu veux précharger sans flash :
+  // useEffect(() => {
+  //   setImageLoaded(false);
+  //   const i = new Image();
+  //   i.src = bgImageUrl;
+  //   i.onload = () => setImageLoaded(true);
+  //   i.onerror = () => setImageLoaded(true);
+  // }, [bgImageUrl]);
 
   return (
     <section
       className="relative isolate flex min-h-[86vh] items-center justify-center overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* Fond */}
-      <div className="absolute inset-0 -z-20">
+      {/* Fond (image + dégradé d’arrière-plan) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <img
+          ref={imageRef}
           src={bgImageUrl}
           alt=""
-          className="h-full w-full object-cover"
+          aria-hidden
+          className={cn(
+            "h-full w-full object-cover transition-opacity duration-700 will-change-[opacity]",
+            imageLoaded ? "opacity-100" : "opacity-0"
+          )}
           loading="eager"
-          fetchPriority="high"
-          decoding="async"
+          // fetchPriority et decoding peuvent provoquer des repaints/flickers suivant les navigateurs
+          // fetchPriority="high"
+          // decoding="async"
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageLoaded(true)}
         />
       </div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/45 to-black/60 md:from-black/55 md:via-black/35 md:to-black/55" />
-      <div className="pointer-events-none absolute inset-0 -z-10 [background:radial-gradient(1200px_600px_at_50%_0%,rgba(255,255,255,.06),transparent)]" />
+      {/* Overlays au-dessus de l’image */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/45 to-black/60 md:from-black/55 md:via-black/35 md:to-black/55" />
+      <div className="pointer-events-none absolute inset-0 z-10 [background:radial-gradient(1200px_600px_at_50%_0%,rgba(255,255,255,.06),transparent)]" />
 
       {/* Contenu */}
       <div
-        className="relative z-10 mx-auto w-full max-w-7xl px-6 text-center"
+        className="relative z-20 mx-auto w-full max-w-7xl px-6 text-center"
         /* Offset mobile : headerHeight + safe area iOS */
         style={{
           paddingTop: `calc(${headerHeight}px + env(safe-area-inset-top, 0px))`,
@@ -52,9 +74,7 @@ export default function HeroSection({
       >
         <motion.h1
           id="hero-heading"
-          className="mx-auto max-w-4xl text-balance font-extrabold text-white
-                     leading-[1.08] sm:leading-[1.05]
-                     text-[clamp(1.9rem,5.8vw,4.6rem)]"
+          className="mx-auto max-w-4xl text-balance font-extrabold text-white leading-[1.08] sm:leading-[1.05] text-[clamp(1.9rem,5.8vw,4.6rem)]"
           initial={prefersReducedMotion ? undefined : { opacity: 0, y: 18 }}
           animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: "easeOut" }}
@@ -102,8 +122,7 @@ export default function HeroSection({
         >
           <Button
             size="lg"
-            className="group bg-gradient-to-r from-teal-400 to-cyan-500 px-7 py-6 text-base font-bold text-white
-                       shadow-2xl shadow-teal-500/20 transition-all hover:from-teal-500 hover:to-cyan-600 hover:shadow-teal-500/30"
+            className="group bg-gradient-to-r from-teal-400 to-cyan-500 px-7 py-6 text-base font-bold text-white shadow-2xl shadow-teal-500/20 transition-all hover:from-teal-500 hover:to-cyan-600 hover:shadow-teal-500/30"
             asChild
           >
             <Link to="/devis" aria-label="Demander un devis">
@@ -115,8 +134,7 @@ export default function HeroSection({
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-white/55 bg-white/0 px-7 py-6 text-base text-white
-                       backdrop-blur-sm transition-colors hover:bg-white/10"
+            className="border-2 border-white/55 bg-white/0 px-7 py-6 text-base text-white backdrop-blur-sm transition-colors hover:bg-white/10"
             asChild
           >
             <Link to="#services" aria-label="Découvrir nos services">
@@ -128,7 +146,7 @@ export default function HeroSection({
 
       {/* Indicateur scroll */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2"
+        className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2"
         animate={prefersReducedMotion ? undefined : { y: [0, 8, 0] }}
         transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden="true"

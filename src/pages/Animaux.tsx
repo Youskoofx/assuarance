@@ -50,11 +50,16 @@ export default function Animaux() {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover brightness-[0.6]"
+          preload="auto"
+          poster="https://images.unsplash.com/photo-1525253086316-d0c936c814f8?auto=format&fit=crop&w=1200&q=60"
+          className="absolute inset-0 h-full w-full object-cover brightness-[0.6]"
         >
-          {/* Remplace par ta propre vidéo si besoin */}
           <source
-            src="https://www.pexels.com/fr-fr/download/video/3042473/"
+            src="https://storage.googleapis.com/coverr-main/mp4/coverr-having-fun-with-the-dog-outdoors-2844.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="https://storage.googleapis.com/coverr-main/mp4/coverr-having-fun-with-the-dog-outdoors-2844-720p.mp4"
             type="video/mp4"
           />
         </video>
