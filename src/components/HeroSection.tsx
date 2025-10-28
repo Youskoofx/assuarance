@@ -100,9 +100,7 @@ export default function HeroSection({
           transition={{ duration: 0.45, delay: 0.15 }}
         >
           {[
-            "⭐ 94% de satisfaction",
-            "⚡ Réponse sous 2h",
-            "🔒 Données chiffrées",
+           
           ].map((pill) => (
             <span
               key={pill}

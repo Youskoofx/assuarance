@@ -278,7 +278,7 @@ export default function Footer() {
                   <Facebook className="w-4.5 h-4.5" />
                 </a>
                 <a
-                  href="https://instagram.com/prevoyanceservices"
+                  href="https://www.instagram.com/prevoyance.services/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-white/5 hover:bg-teal-600 text-white flex items-center justify-center transition-colors"
