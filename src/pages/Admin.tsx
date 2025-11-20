@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Database } from "@/types/supabase";
+import { sendPersonalEmail } from "@/lib/emails";
 import {
   Card,
   CardContent,
@@ -138,6 +139,14 @@ export default function Admin() {
   const [chatInput, setChatInput] = useState("");
   const [chatSending, setChatSending] = useState(false);
   const [chatError, setChatError] = useState<string | null>(null);
+  const adminEmails = useMemo(
+    () =>
+      (import.meta.env.VITE_ADMIN_EMAILS || "")
+        .split(",")
+        .map((email) => email.trim())
+        .filter(Boolean),
+    []
+  );
 
   const [updatingDevisId, setUpdatingDevisId] = useState<string | null>(null);
   const [updatingContratId, setUpdatingContratId] = useState<string | null>(null);
@@ -312,6 +321,38 @@ export default function Admin() {
     fetchChatMessages(activeClientId);
   }, [activeClientId, fetchChatMessages]);
 
+  useEffect(() => {
+    const channel = supabase
+      .channel("admin-chat-stream")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages_chat",
+        },
+        (payload) => {
+          const newMessage = payload.new as unknown as DbMessage;
+          if (!newMessage?.user_id) return;
+
+          if (newMessage.user_id === activeClientId) {
+            setChatMessages((prev) => {
+              if (prev.some((msg) => msg.id === newMessage.id)) {
+                return prev;
+              }
+              return [...prev, newMessage];
+            });
+          }
+        }
+      );
+
+    channel.subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [activeClientId]);
+
   const updateDevisStatus = async (id: string, statut: string) => {
     setUpdatingDevisId(id);
     setStatusMessage(null);
@@ -381,8 +422,13 @@ export default function Admin() {
     setCreateLoading(true);
     setStatusMessage(null);
     try {
+      const normalizedEmail = createForm.email.trim().toLowerCase();
+      const existingUser = clients.find(
+        (client) => (client.email ?? "").toLowerCase() === normalizedEmail
+      );
+
       const payload = {
-        email: createForm.email.trim().toLowerCase(),
+        email: normalizedEmail,
         prenom: createForm.prenom.trim() || null,
         nom: createForm.nom.trim() || null,
         telephone: createForm.telephone.trim() || null,
@@ -405,6 +451,34 @@ export default function Admin() {
         `Profil ${payload.email} enregistré. Utilisez la page Espace Client pour finaliser la création du mot de passe.`
       );
       setCreateForm(defaultFormState);
+      if (!existingUser && payload.email) {
+        const origin = typeof window !== "undefined" ? window.location.origin : "";
+        void sendPersonalEmail({
+          to: payload.email,
+          template: "invitation",
+          data: {
+            prenom: payload.prenom,
+            nom: payload.nom,
+            email: payload.email,
+            actionUrl: origin ? `${origin}/espace-client` : undefined,
+          },
+        }).catch((mailErr) => console.error("Invitation email failure:", mailErr));
+
+        if (adminEmails.length) {
+          void sendPersonalEmail({
+            to: adminEmails,
+            template: "admin-new-user",
+            data: {
+              prenom: payload.prenom,
+              nom: payload.nom,
+              email: payload.email,
+              origin,
+            },
+          }).catch((mailErr) =>
+            console.error("Notification admin failure:", mailErr)
+          );
+        }
+      }
       await fetchAllData();
 
       if (data?.id) {
@@ -440,7 +514,12 @@ export default function Admin() {
         .single();
 
       if (insertError) throw insertError;
-      setChatMessages((prev) => [...prev, data as DbMessage]);
+      if (data) {
+        setChatMessages((prev) => {
+          const exists = prev.some((msg) => msg.id === data.id);
+          return exists ? prev : [...prev, data as DbMessage];
+        });
+      }
       setChatInput("");
     } catch (err) {
       console.error(err);

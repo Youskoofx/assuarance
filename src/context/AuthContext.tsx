@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { sendPersonalEmail } from '@/lib/emails'
 import { User } from '@supabase/supabase-js'
 
 interface AuthContextType {
@@ -140,6 +141,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { error: insertError } = await supabase.from('users').insert(profilePayload)
       if (insertError && insertError.code !== '23505') {
         throw insertError
+      }
+      const origin = typeof window !== 'undefined' ? window.location.origin : ''
+      if (profilePayload.email) {
+        void sendPersonalEmail({
+          to: profilePayload.email,
+          template: 'welcome',
+          data: {
+            prenom: profilePayload.prenom,
+            nom: profilePayload.nom,
+            email: profilePayload.email,
+            dashboardUrl: origin ? `${origin}/espace-client/dashboard` : undefined,
+          },
+        }).catch((mailError) =>
+          console.error('Impossible d’envoyer l’email de bienvenue:', mailError)
+        )
+
+        if (adminEmails.length) {
+          void sendPersonalEmail({
+            to: adminEmails,
+            template: 'admin-new-user',
+            data: {
+              prenom: profilePayload.prenom,
+              nom: profilePayload.nom,
+              email: profilePayload.email,
+            },
+          }).catch((mailError) =>
+            console.error('Impossible d’envoyer la notification admin:', mailError)
+          )
+        }
       }
     }
   }

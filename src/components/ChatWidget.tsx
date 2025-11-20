@@ -1,77 +1,112 @@
-import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/context/AuthContext';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
+import type { Database } from "@/types/supabase";
+
+type DbMessage = Database["public"]["Tables"]["messages_chat"]["Row"];
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<any[]>([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [messages, setMessages] = useState<DbMessage[]>([]);
+  const [inputMessage, setInputMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
 
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const fetchMessages = useCallback(async () => {
+    if (!user) return;
+    setHistoryLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("messages_chat")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      setMessages(data ?? []);
+    } catch (err) {
+      console.error("Erreur de chargement des messages :", err);
+      setMessages([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     if (isOpen && user) {
-      fetchMessages();
+      void fetchMessages();
     }
-  }, [isOpen, user]);
+  }, [isOpen, user, fetchMessages]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const channel = supabase
+      .channel(`chat-user-${user.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages_chat",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const newMessage = payload.new as DbMessage;
+          setMessages((prev) => {
+            const exists = prev.some((msg) => msg.id === newMessage.id);
+            if (exists) return prev;
+            return [...prev, newMessage];
+          });
+        }
+      );
+
+    channel.subscribe((status) => {
+      if (status === "SUBSCRIBED") {
+        void fetchMessages();
+      }
+    });
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id, fetchMessages]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const fetchMessages = async () => {
-    if (!user) return;
-    
-    const { data, error } = await supabase
-      .from('messages_chat')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true });
-
-    if (!error && data) {
-      setMessages(data);
-    }
-  };
-
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const sendMessage = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (!inputMessage.trim() || !user) return;
 
     setLoading(true);
+    const content = inputMessage.trim();
+    setInputMessage("");
 
-    // Add user message
-    const userMsg = {
-      user_id: user.id,
-      message: inputMessage,
-      sender: 'user',
-      created_at: new Date().toISOString()
-    };
-
-    await supabase.from('messages_chat').insert(userMsg);
-    setMessages(prev => [...prev, userMsg]);
-    setInputMessage('');
-
-    // Simulate bot response
-    setTimeout(async () => {
-      const botMsg = {
+    try {
+      const { error } = await supabase.from("messages_chat").insert({
         user_id: user.id,
-        message: 'Merci pour votre message ! Un conseiller vous répondra dans les plus brefs délais.',
-        sender: 'bot',
-        created_at: new Date().toISOString()
-      };
+        message: content,
+        sender: "user",
+      });
 
-      await supabase.from('messages_chat').insert(botMsg);
-      setMessages(prev => [...prev, botMsg]);
+      if (error) throw error;
+    } catch (err) {
+      console.error("Impossible d’envoyer le message :", err);
+      setInputMessage(content);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -104,27 +139,42 @@ export default function ChatWidget() {
               <div className="text-center text-slate-500 mt-8">
                 <p>Connectez-vous pour discuter avec nous</p>
               </div>
+            ) : historyLoading ? (
+              <div className="mt-8 flex flex-col items-center gap-3 text-slate-500">
+                <Loader2 className="h-6 w-6 animate-spin text-teal-500" />
+                <p>Chargement de la conversation…</p>
+              </div>
             ) : messages.length === 0 ? (
               <div className="text-center text-slate-500 mt-8">
                 <p>Bonjour ! Comment puis-je vous aider ?</p>
               </div>
             ) : (
-              messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
+              messages.map((msg) => {
+                const isUser = msg.sender === "user";
+                const isAdvisor =
+                  msg.sender === "admin" || msg.sender === "bot";
+                return (
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl ${
-                      msg.sender === 'user'
-                        ? 'bg-teal-600 text-white'
-                        : 'bg-slate-100 text-slate-900'
-                    }`}
+                    key={msg.id}
+                    className={`flex ${isUser ? "justify-end" : "justify-start"}`}
                   >
-                    {msg.message}
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-sm ${
+                        isUser
+                          ? "bg-teal-600 text-white"
+                          : "bg-slate-100 text-slate-900"
+                      }`}
+                    >
+                      {isAdvisor && (
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-teal-700">
+                          Conseiller
+                        </p>
+                      )}
+                      {msg.message}
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
             <div ref={messagesEndRef} />
           </div>
@@ -146,7 +196,11 @@ export default function ChatWidget() {
                   className="bg-gradient-to-r from-teal-400 to-cyan-500"
                   disabled={loading}
                 >
-                  <Send className="w-4 h-4" />
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="w-4 h-4" />
+                  )}
                 </Button>
               </div>
             </form>

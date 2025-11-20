@@ -1,5 +1,5 @@
 // src/pages/EspaceClient.tsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ComponentType } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   AlertCircle,
-  CheckCircle2,
   Eye,
   EyeOff,
   Lock,
@@ -19,8 +18,11 @@ import {
   MapPin,
   Info,
   Loader2,
+  Sparkles,
+  PhoneCall,
 } from "lucide-react";
 import { isAdminUser } from "@/components/AdminRoute";
+import { cn } from "@/lib/utils";
 
 /* ───────────────────────────────────────────────────────────── */
 
@@ -51,6 +53,12 @@ export default function EspaceClient() {
     ville: "",
     cgu_ok: false,
   });
+
+  const playfulFacts = [
+    { icon: Shield, label: "Contrats & attestations en 1 clic" },
+    { icon: PhoneCall, label: "Chat direct avec votre conseiller" },
+    { icon: Sparkles, label: "Activation express en 2 minutes" },
+  ] as const;
 
   /* ── Validation helpers ───────────────────────────────────── */
   const emailOk = useMemo(
@@ -153,42 +161,48 @@ export default function EspaceClient() {
 
   /* ── UI ───────────────────────────────────────────────────── */
   return (
-    <div className="min-h-screen bg-[radial-gradient(1000px_600px_at_10%_0%,rgba(20,184,166,.12),transparent),radial-gradient(900px_600px_at_90%_0%,rgba(34,211,238,.12),transparent)]">
-      {/* Cap sombre derrière le header */}
-      <div className="fixed top-0 left-0 right-0 h-28 z-40 pointer-events-none bg-gradient-to-b from-slate-900/80 via-slate-900/45 to-transparent" />
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(1400px_800px_at_5%_-10%,rgba(59,130,246,0.16),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(1200px_700px_at_95%_-10%,rgba(20,184,166,0.16),transparent)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.94)0%,rgba(15,23,42,0.9)40%,rgba(15,23,42,0.97)100%)]" />
 
-      {/* container sous le header */}
-      <div className="mx-auto max-w-6xl px-6 pt-28 pb-16 relative z-10">
-        {/* onglets */}
-        <div className="mx-auto mb-5 flex max-w-3xl overflow-hidden rounded-xl border border-slate-200 bg-white/70 p-1 backdrop-blur">
-          <Tab active={mode === "login"} onClick={() => setMode("login")}>
-            Connexion
-          </Tab>
-          <Tab active={mode === "signup"} onClick={() => setMode("signup")}>
-            Inscription
-          </Tab>
+      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 py-16 md:py-24">
+        <div className="space-y-5 text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-teal-100">
+            <Sparkles className="h-3.5 w-3.5 text-teal-200" />
+            Mon espace client
+          </span>
+          <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
+            Une interface simple et ludique pour gérer vos assurances.
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-white/70">
+            Connectez-vous pour retrouver vos contrats, documents et conversations. Nouveau venu ?
+            Créez votre espace en quelques clics et profitez d’un suivi personnalisé.
+          </p>
         </div>
 
-        <section className="mx-auto grid max-w-6xl gap-6 md:grid-cols-[1.1fr_.9fr]">
-          {/* Card form */}
-          <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-xl backdrop-blur md:p-8">
-            {/* heading */}
-            <div className="mb-6 text-center">
-              <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-teal-100">
-                <Shield className="h-5 w-5 text-teal-700" />
-              </div>
-              <h1 className="text-2xl font-bold text-slate-900">
-                {mode === "login" ? "Connexion" : "Créer un compte"}
-              </h1>
-              <p className="mt-1 text-sm text-slate-600">
-                {mode === "login"
-                  ? "Accédez à votre espace personnel"
-                  : "Complétez vos informations pour activer votre espace"}
-              </p>
+        <div className="mt-10 w-full overflow-hidden rounded-[32px] border border-white/10 bg-white/95 text-slate-900 shadow-[0_35px_110px_rgba(15,23,42,0.5)]">
+          <div className="bg-gradient-to-r from-teal-400/15 via-sky-400/15 to-blue-500/15 px-6 py-4 text-center text-xs font-semibold uppercase tracking-[0.32em] text-teal-600">
+            {mode === "login" ? "Ravi de vous revoir !" : "Bienvenue parmi nous"}
+          </div>
+
+          <div className="px-6 py-8 sm:px-10 sm:py-10">
+            <div className="mx-auto flex max-w-sm rounded-full bg-slate-100 p-1">
+              <Tab active={mode === "login"} onClick={() => setMode("login")}>
+                Connexion
+              </Tab>
+              <Tab active={mode === "signup"} onClick={() => setMode("signup")}>
+                Inscription
+              </Tab>
             </div>
+            <p className="mt-4 text-center text-sm text-slate-500">
+              {mode === "login"
+                ? "Entrez vos identifiants pour accéder à votre tableau de bord."
+                : "Complétez simplement vos informations afin de débloquer votre espace sécurisé."}
+            </p>
 
             {error && (
-              <div className="mb-6 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700 animate-[shake_.25s_ease]">
+              <div className="mt-6 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50/90 p-4 text-sm text-rose-700 animate-[shake_.25s_ease]">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                 <p>{error}</p>
               </div>
@@ -196,7 +210,7 @@ export default function EspaceClient() {
 
             <Button
               variant="outline"
-              className="mb-4 w-full border-slate-300"
+              className="mt-8 w-full border-slate-200 bg-white/90 text-slate-900 shadow-sm transition hover:bg-white"
               onClick={google}
               disabled={loading}
             >
@@ -214,11 +228,11 @@ export default function EspaceClient() {
 
             <OrDivider />
 
-            <form onSubmit={submit} className="space-y-4">
+            <form onSubmit={submit} className="space-y-6">
               {mode === "signup" && (
-                <>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <FloatField
+                <div className="space-y-6">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <LabeledInput
                       id="prenom"
                       label="Prénom"
                       icon={User}
@@ -226,7 +240,7 @@ export default function EspaceClient() {
                       onChange={(v) => setForm({ ...form, prenom: v })}
                       required
                     />
-                    <FloatField
+                    <LabeledInput
                       id="nom"
                       label="Nom"
                       icon={User}
@@ -236,20 +250,20 @@ export default function EspaceClient() {
                     />
                   </div>
 
-                  <FloatField
-                    id="telephone"
-                    label="Téléphone"
-                    icon={Phone}
-                    type="tel"
-                    value={form.telephone}
-                    onChange={(v) => setForm({ ...form, telephone: v })}
-                    invalid={!!form.telephone && !phoneOk}
-                    hint={form.telephone && !phoneOk ? "Numéro invalide (min. 8 chiffres)" : ""}
-                    required
-                  />
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <FloatField
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <LabeledInput
+                      id="telephone"
+                      label="Téléphone"
+                      icon={Phone}
+                      type="tel"
+                      value={form.telephone}
+                      onChange={(v) => setForm({ ...form, telephone: v })}
+                      errorText={
+                        form.telephone && !phoneOk ? "Numéro invalide (min. 8 chiffres)" : undefined
+                      }
+                      required
+                    />
+                    <LabeledInput
                       id="date_naissance"
                       label="Date de naissance"
                       icon={Calendar}
@@ -258,7 +272,18 @@ export default function EspaceClient() {
                       onChange={(v) => setForm({ ...form, date_naissance: v })}
                       required
                     />
-                    <FloatField
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <LabeledInput
+                      id="adresse"
+                      label="Adresse"
+                      icon={MapPin}
+                      value={form.adresse}
+                      onChange={(v) => setForm({ ...form, adresse: v })}
+                      required
+                    />
+                    <LabeledInput
                       id="ville"
                       label="Ville"
                       icon={MapPin}
@@ -267,58 +292,49 @@ export default function EspaceClient() {
                       required
                     />
                   </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <FloatField
-                      id="adresse"
-                      label="Adresse"
-                      icon={MapPin}
-                      value={form.adresse}
-                      onChange={(v) => setForm({ ...form, adresse: v })}
-                      required
-                    />
-                    <FloatField
-                      id="code_postal"
-                      label="Code postal"
-                      icon={MapPin}
-                      value={form.code_postal}
-                      onChange={(v) => setForm({ ...form, code_postal: v })}
-                      invalid={!!form.code_postal && !cpOk}
-                      hint={form.code_postal && !cpOk ? "Format 4 ou 5 chiffres" : ""}
-                      required
-                    />
-                  </div>
-                </>
+                  <LabeledInput
+                    id="code_postal"
+                    label="Code postal"
+                    icon={MapPin}
+                    value={form.code_postal}
+                    onChange={(v) => setForm({ ...form, code_postal: v })}
+                    errorText={
+                      form.code_postal && !cpOk ? "Format attendu : 4 ou 5 chiffres" : undefined
+                    }
+                    required
+                  />
+                </div>
               )}
 
-              <FloatField
-                id="email"
-                label="Email"
-                icon={Mail}
-                type="email"
-                value={form.email}
-                onChange={(v) => setForm({ ...form, email: v })}
-                invalid={!!form.email && !emailOk}
-                hint={form.email && !emailOk ? "Adresse e-mail invalide" : ""}
-                required
-              />
+              <div className="space-y-4">
+                <LabeledInput
+                  id="email"
+                  label="Email"
+                  icon={Mail}
+                  type="email"
+                  value={form.email}
+                  onChange={(v) => setForm({ ...form, email: v })}
+                  errorText={form.email && !emailOk ? "Adresse e-mail invalide" : undefined}
+                  required
+                />
 
-              <PasswordField
-                value={form.password}
-                onChange={(v) => setForm({ ...form, password: v })}
-                showPwd={showPwd}
-                setShowPwd={setShowPwd}
-                capsOn={capsOn}
-                mode={mode}
-                score={pwdScore}
-              />
+                <PasswordField
+                  value={form.password}
+                  onChange={(v) => setForm({ ...form, password: v })}
+                  showPwd={showPwd}
+                  setShowPwd={setShowPwd}
+                  capsOn={capsOn}
+                  mode={mode}
+                  score={pwdScore}
+                />
+              </div>
 
               {mode === "login" ? (
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 text-sm text-slate-600">
+                <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
+                  <label className="flex items-center gap-2">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 accent-teal-600"
+                      className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
                       checked={remember}
                       onChange={(e) => setRemember(e.target.checked)}
                     />
@@ -326,23 +342,30 @@ export default function EspaceClient() {
                   </label>
                   <button
                     type="button"
-                    className="text-sm font-medium text-teal-700 hover:underline"
+                    className="font-medium text-teal-600 hover:underline"
                     onClick={() => alert("Branche le flux de réinitialisation 🙂")}
                   >
                     Mot de passe oublié ?
                   </button>
                 </div>
               ) : (
-                <label className="flex items-start gap-2 text-sm text-slate-600">
+                <label className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600">
                   <input
                     type="checkbox"
-                    className="mt-0.5 h-4 w-4 accent-teal-600"
+                    className="mt-1 h-5 w-5 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
                     checked={form.cgu_ok}
                     onChange={(e) => setForm({ ...form, cgu_ok: e.target.checked })}
                   />
                   <span>
-                    J’accepte les <span className="underline">CGU</span> et la{" "}
-                    <span className="underline">politique de confidentialité</span>.
+                    J’accepte les{" "}
+                    <a href="/cgu" className="font-semibold text-teal-600 underline">
+                      CGU
+                    </a>{" "}
+                    et la{" "}
+                    <a href="/politique-confidentialite" className="font-semibold text-teal-600 underline">
+                      politique de confidentialité
+                    </a>
+                    .
                   </span>
                 </label>
               )}
@@ -350,68 +373,50 @@ export default function EspaceClient() {
               <Button
                 type="submit"
                 disabled={!canSubmit || loading}
-                className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 font-bold text-white hover:from-teal-600 hover:to-cyan-600 disabled:opacity-60"
+                className="w-full rounded-2xl bg-gradient-to-r from-teal-500 via-cyan-500 to-sky-500 py-3 text-base font-semibold text-white shadow-lg shadow-teal-500/25 transition hover:from-teal-400 hover:to-sky-400 disabled:opacity-50"
               >
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Chargement…
+                    Traitement en cours…
                   </>
                 ) : mode === "login" ? (
                   "Se connecter"
                 ) : (
-                  "Créer mon compte"
+                  "Activer mon espace"
                 )}
               </Button>
             </form>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
-              <BadgeLine text="Données chiffrées" />
-              <BadgeLine text="Connexion sécurisée" />
-              <BadgeLine text="Aucune revente" />
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50/85 p-4 text-sm text-slate-600">
+              <p className="flex items-center gap-2">
+                <Info className="h-4 w-4 text-teal-500" />
+                Besoin d’aide ?
+              </p>
+              <p className="mt-1">
+                Contactez un conseiller au{" "}
+                <a href="tel:+33180050050" className="font-semibold text-teal-600 hover:underline">
+                  01 80 05 00 50
+                </a>{" "}
+                ou lancez le chat en bas à droite.
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Side panel (benefits) */}
-          <aside className="relative hidden overflow-hidden rounded-2xl border border-slate-200 bg-white/70 shadow-xl backdrop-blur md:block">
-            <div
-              className="absolute inset-0 -z-10 bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url(https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=1600&auto=format&fit=crop)",
-              }}
-            />
-            <div className="absolute inset-0 -z-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
-            <div className="relative z-10 p-8 text-white">
-              <h3 className="mb-6 text-2xl font-bold">Pourquoi créer votre compte ?</h3>
-              <ul className="space-y-4">
-                {[
-                  "Suivi de vos contrats en temps réel",
-                  "Espace documents sécurisé (attestations, quittances)",
-                  "Échanges rapides avec votre conseiller",
-                  "Devis et souscription en ligne",
-                ].map((t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-teal-300" />
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8 rounded-xl bg-white/10 p-4 text-sm leading-relaxed backdrop-blur">
-                <p className="flex items-center gap-2">
-                  <Info className="h-4 w-4" /> Astuce sécurité
-                </p>
-                <p className="mt-1 text-white/90">
-                  Utilisez un mot de passe unique et activez l’option “Se souvenir de moi” uniquement
-                  sur vos appareils personnels.
-                </p>
-              </div>
-            </div>
-          </aside>
-        </section>
+        <ul className="mt-10 grid w-full gap-3 text-sm text-white/75 sm:grid-cols-3">
+          {playfulFacts.map(({ icon: Icon, label }) => (
+            <li
+              key={label}
+              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3"
+            >
+              <Icon className="h-5 w-5 text-teal-200" />
+              <span>{label}</span>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* keyframes */}
       <style>{`
         @keyframes shake { 10%,90%{transform:translateX(-1px)} 20%,80%{transform:translateX(2px)} 30%,50%,70%{transform:translateX(-4px)} 40%,60%{transform:translateX(4px)} }
       `}</style>
@@ -435,10 +440,12 @@ function Tab({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={[
-        "flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition",
-        active ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900",
-      ].join(" ")}
+      className={cn(
+        "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200",
+        active
+          ? "bg-white text-slate-900 shadow-md shadow-slate-300/40"
+          : "text-slate-500 hover:text-slate-700"
+      )}
     >
       {children}
     </button>
@@ -447,12 +454,12 @@ function Tab({
 
 function OrDivider() {
   return (
-    <div className="relative my-5">
+    <div className="relative my-6">
       <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-slate-200" />
+        <div className="w-full border-t border-slate-200/70" />
       </div>
       <div className="relative flex justify-center">
-        <span className="bg-white/80 px-3 text-xs font-medium uppercase tracking-wide text-slate-500">
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
           OU AVEC VOTRE EMAIL
         </span>
       </div>
@@ -460,24 +467,14 @@ function OrDivider() {
   );
 }
 
-function BadgeLine({ text }: { text: string }) {
-  return (
-    <span className="inline-flex items-center gap-1">
-      <CheckCircle2 className="h-3.5 w-3.5 text-teal-600" />
-      {text}
-    </span>
-  );
-}
-
-function FloatField({
+function LabeledInput({
   id,
   label,
   value,
   onChange,
   type = "text",
   icon: Icon,
-  invalid,
-  hint,
+  errorText,
   required,
 }: {
   id: string;
@@ -485,42 +482,34 @@ function FloatField({
   value: string;
   onChange: (v: string) => void;
   type?: string;
-  icon?: any;
-  invalid?: boolean;
-  hint?: string;
+  icon?: ComponentType<{ className?: string }>;
+  errorText?: string;
   required?: boolean;
 }) {
   return (
-    <div>
-      <div
-        className={[
-          "relative rounded-lg border bg-white transition focus-within:ring-2",
-          invalid
-            ? "border-red-500 focus-within:ring-red-200"
-            : "border-slate-300 focus-within:border-teal-500 focus-within:ring-teal-200",
-        ].join(" ")}
-      >
-        {Icon && (
-          <Icon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+    <label htmlFor={id} className="block">
+      <span className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+        {Icon && <Icon className="h-4 w-4 text-teal-500" />}
+        {label}
+      </span>
+      <Input
+        id={id}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        className={cn(
+          "h-11 rounded-xl border border-slate-200 bg-white/95 text-sm font-medium text-slate-900 shadow-sm transition focus-visible:border-teal-500 focus-visible:ring-2 focus-visible:ring-teal-200",
+          errorText && "border-rose-300 focus-visible:border-rose-400 focus-visible:ring-rose-200"
         )}
-        <Input
-          id={id}
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          className={["border-0 bg-transparent pl-9 pr-3 pt-5 pb-1 focus-visible:ring-0"].join(" ")}
-          placeholder=" "
-        />
-        <Label
-          htmlFor={id}
-          className="pointer-events-none absolute left-9 top-1.5 origin-left bg-white px-1 text-xs font-semibold text-slate-500 transition-all"
-        >
-          {label}
-        </Label>
-      </div>
-      {hint ? <p className="mt-1 text-xs text-red-600">{hint}</p> : null}
-    </div>
+      />
+      {errorText ? (
+        <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-rose-600">
+          <AlertCircle className="h-3 w-3" />
+          {errorText}
+        </span>
+      ) : null}
+    </label>
   );
 }
 
@@ -553,20 +542,20 @@ function PasswordField({
 
   return (
     <div>
-      <div className="relative rounded-lg border border-slate-300 bg-white transition focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-200">
-        <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      <div className="group relative rounded-2xl border border-slate-200 bg-white/90 shadow-sm transition focus-within:border-teal-500 focus-within:shadow-md focus-within:ring-2 focus-within:ring-teal-200/80">
+        <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within:text-teal-500" />
         <Input
           id="password"
           type={showPwd ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="border-0 bg-transparent pl-9 pr-10 pt-5 pb-1 focus-visible:ring-0"
+          className="border-0 bg-transparent pl-11 pr-12 pt-6 pb-2 text-sm font-medium text-slate-900 placeholder:text-transparent focus-visible:ring-0"
           placeholder=" "
           autoComplete="current-password"
         />
         <Label
           htmlFor="password"
-          className="pointer-events-none absolute left-9 top-1.5 origin-left bg-white px-1 text-xs font-semibold text-slate-500 transition-all"
+          className="pointer-events-none absolute left-11 top-2 origin-left rounded bg-white/90 px-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 transition-all group-focus-within:-translate-y-1 group-focus-within:scale-[0.92] group-focus-within:text-teal-600"
         >
           Mot de passe
         </Label>
@@ -574,7 +563,7 @@ function PasswordField({
           type="button"
           onClick={() => setShowPwd(!showPwd)}
           aria-label={showPwd ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
         >
           {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
@@ -582,10 +571,10 @@ function PasswordField({
 
       {mode === "signup" && (
         <div className="mt-2">
-          <div className="h-2 w-full rounded-full bg-slate-200">
-            <div className={`h-2 rounded-full ${color}`} style={{ width: `${pct}%` }} />
+          <div className="h-2 w-full rounded-full bg-slate-200/70">
+            <div className={`h-2 rounded-full ${color}`} style={{ width: `${pct}%`, transition: "width 0.2s ease" }} />
           </div>
-          <p className="mt-1 flex items-center gap-2 text-xs text-slate-600">
+          <p className="mt-2 flex items-center gap-2 text-xs text-slate-600">
             <Info className="h-3.5 w-3.5" />
             Minimum {MIN_PWD} caractères, idéalement majuscules, minuscules, chiffres et symbole.
           </p>
@@ -593,7 +582,9 @@ function PasswordField({
       )}
 
       {capsOn && (
-        <p className="mt-2 text-xs font-medium text-amber-600">⚠️ Verr. Maj activée — attention.</p>
+        <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">
+          ⚠️ Verr. Maj activée — attention lors de la saisie de votre mot de passe.
+        </p>
       )}
     </div>
   );
