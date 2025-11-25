@@ -1,12 +1,13 @@
 import { supabase } from "@/lib/supabase";
 
-export type EmailTemplate = "welcome" | "admin-new-user" | "invitation";
-
-interface EmailPayload {
-  to: string | string[];
-  template: EmailTemplate;
-  subject?: string;
-  data?: Record<string, unknown>;
+export interface EmailPayload {
+  nom: string;
+  prenom?: string;
+  email: string;
+  telephone?: string;
+  type_assurance: string;
+  ville?: string;
+  message?: string;
 }
 
 interface EmailResponse {
@@ -20,13 +21,8 @@ export async function sendPersonalEmail(payload: EmailPayload): Promise<EmailRes
       body: payload,
     });
 
-    if (error) {
-      throw error;
-    }
-
-    if ((data as any)?.error) {
-      throw (data as any)?.error;
-    }
+    if (error) throw error;
+    if ((data as any)?.error) throw (data as any)?.error;
 
     return { success: true };
   } catch (err) {
