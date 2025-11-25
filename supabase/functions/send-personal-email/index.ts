@@ -50,6 +50,15 @@ async function handleSendEmail(payload) {
     <p><b>Ville:</b> ${payload.ville ?? ""}</p>
     ${payload.message ? `<p><b>Message complémentaire:</b><br>${payload.message}</p>` : ""}
   `;
+  const text = [
+    `Demande de devis`,
+    `Nom: ${payload.nom} ${payload.prenom ?? ""}`.trim(),
+    `Email: ${payload.email}`,
+    `Téléphone: ${payload.telephone ?? ""}`,
+    `Type d'assurance: ${payload.type_assurance}`,
+    `Ville: ${payload.ville ?? ""}`,
+    payload.message ? `Message complémentaire: ${payload.message}` : null
+  ].filter(Boolean).join("\n");
   const providerResponse = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -62,7 +71,8 @@ async function handleSendEmail(payload) {
         TO_EMAIL
       ],
       subject: `Nouveau devis reçu de ${payload.nom}`,
-      html
+      html,
+      text
     })
   });
   let providerJson;
