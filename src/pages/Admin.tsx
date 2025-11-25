@@ -703,7 +703,7 @@ export default function Admin() {
                   placeholder="Rechercher par nom, email, ville ou rôle…"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="h-12 rounded-xl border-white/10 bg-slate-900/60 pl-10 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                  className="admin-field h-12 pl-10"
                 />
               </div>
             </CardHeader>
@@ -829,19 +829,26 @@ export default function Admin() {
                       <p className="text-xs font-semibold uppercase text-white/60">
                         Rôle attribué
                       </p>
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                        <Select value={roleDraft} onValueChange={setRoleDraft}>
-                          <SelectTrigger className="w-full sm:w-60 border-white/10 bg-slate-900/60 text-white">
-                            <SelectValue placeholder="Choisir un rôle" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {roleOptions.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                      <Select value={roleDraft} onValueChange={setRoleDraft}>
+                        <SelectTrigger className="admin-field h-12 w-full justify-between sm:w-60">
+                          <SelectValue
+                            placeholder="Choisir un rôle"
+                            className="text-white data-[placeholder]:text-white/50"
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-900 text-slate-50 border-white/10">
+                          {roleOptions.map((option) => (
+                            <SelectItem
+                              key={option.value}
+                              value={option.value}
+                              className="text-slate-50 data-[state=checked]:bg-sky-500/30 data-[state=checked]:text-white focus:bg-sky-500/20"
+                            >
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                         <Button
                           onClick={handleRoleUpdate}
                           disabled={roleUpdatingId === activeClient.id || roleDraft === activeClient.role}
@@ -1008,7 +1015,7 @@ export default function Admin() {
                           value={chatInput}
                           onChange={(event) => setChatInput(event.target.value)}
                           placeholder="Votre réponse au client…"
-                          className="min-h-[80px] resize-none border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                          className="admin-field min-h-[80px] resize-none"
                           disabled={chatSending}
                         />
                         <div className="flex items-center justify-end">
@@ -1071,7 +1078,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, prenom: event.target.value }))
                     }
                     placeholder="Alex"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1082,7 +1089,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, nom: event.target.value }))
                     }
                     placeholder="Dupont"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2 md:col-span-2">
@@ -1096,7 +1103,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, email: event.target.value }))
                     }
                     placeholder="client@email.fr"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1107,7 +1114,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, telephone: event.target.value }))
                     }
                     placeholder="+33 6 12 34 56 78"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1118,7 +1125,7 @@ export default function Admin() {
                     onChange={(event) =>
                       setCreateForm((prev) => ({ ...prev, date_naissance: event.target.value }))
                     }
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2 md:col-span-2">
@@ -1129,7 +1136,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, adresse: event.target.value }))
                     }
                     placeholder="12 rue de la Paix"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1140,7 +1147,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, code_postal: event.target.value }))
                     }
                     placeholder="75000"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1151,7 +1158,7 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, ville: event.target.value }))
                     }
                     placeholder="Paris"
-                    className="border-white/10 bg-slate-900/60 text-white placeholder:text-slate-400 focus-visible:ring-teal-400"
+                    className="admin-field"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -1162,12 +1169,19 @@ export default function Admin() {
                       setCreateForm((prev) => ({ ...prev, role: value }))
                     }
                   >
-                    <SelectTrigger className="border-white/10 bg-slate-900/60 text-white">
-                      <SelectValue placeholder="Sélectionner un rôle" />
+                    <SelectTrigger className="admin-field h-12 justify-between">
+                      <SelectValue
+                        placeholder="Sélectionner un rôle"
+                        className="text-white data-[placeholder]:text-white/50"
+                      />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-slate-900 text-slate-50 border-white/10">
                       {roleOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="text-slate-50 data-[state=checked]:bg-sky-500/30 data-[state=checked]:text-white focus:bg-sky-500/20"
+                        >
                           {option.label}
                         </SelectItem>
                       ))}
@@ -1287,12 +1301,16 @@ export default function Admin() {
                               onValueChange={(value) => updateDevisStatus(item.id, value)}
                               disabled={updatingDevisId === item.id}
                             >
-                              <SelectTrigger className="w-[160px] border-white/10 bg-slate-900/60 text-white">
-                                <SelectValue />
+                              <SelectTrigger className="admin-field h-11 w-[160px] justify-between">
+                                <SelectValue className="text-white data-[placeholder]:text-white/50" />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="bg-slate-900 text-slate-50 border-white/10">
                                 {devisStatusOptions.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
+                                  <SelectItem
+                                    key={option.value}
+                                    value={option.value}
+                                    className="text-slate-50 data-[state=checked]:bg-sky-500/30 data-[state=checked]:text-white focus:bg-sky-500/20"
+                                  >
                                     {option.label}
                                   </SelectItem>
                                 ))}
@@ -1362,12 +1380,16 @@ export default function Admin() {
                               onValueChange={(value) => updateContratStatus(contrat.id, value)}
                               disabled={updatingContratId === contrat.id}
                             >
-                              <SelectTrigger className="w-[160px] border-white/10 bg-slate-900/60 text-white">
-                                <SelectValue />
+                              <SelectTrigger className="admin-field h-11 w-[160px] justify-between">
+                                <SelectValue className="text-white data-[placeholder]:text-white/50" />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="bg-slate-900 text-slate-50 border-white/10">
                                 {contratStatusOptions.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
+                                  <SelectItem
+                                    key={option.value}
+                                    value={option.value}
+                                    className="text-slate-50 data-[state=checked]:bg-sky-500/30 data-[state=checked]:text-white focus:bg-sky-500/20"
+                                  >
                                     {option.label}
                                   </SelectItem>
                                 ))}
@@ -1384,6 +1406,31 @@ export default function Admin() {
           </Card>
         </section>
       </div>
+      <style>{`
+        .admin-field {
+          background-color: #0f172a;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          color: #f8fafc;
+          padding: 10px 12px;
+          font-size: 14px;
+          transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+        }
+        .admin-field::placeholder {
+          color: rgba(255, 255, 255, 0.55);
+        }
+        .admin-field:hover {
+          border-color: rgba(255, 255, 255, 0.22);
+        }
+        .admin-field:focus {
+          outline: none;
+          border-color: #38bdf8;
+          box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+        }
+        .admin-field:disabled {
+          opacity: 0.6;
+        }
+      `}</style>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
     </div>
   );
