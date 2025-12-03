@@ -21,7 +21,7 @@ interface DevisPayload {
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const TO_EMAIL = "contact@prevoyanceservices.fr";
-const FROM_EMAIL = Deno.env.get("RESEND_FROM_EMAIL") ?? "Devis <no-reply@prevoyanceservices.fr>";
+const FROM_EMAIL = "Prévoyance Services <onboarding@resend.dev>";
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {

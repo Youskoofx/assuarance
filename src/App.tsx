@@ -30,6 +30,7 @@ const PrevoyancePro = lazy(() => import("./pages/PrevoyancePro"));
 const MultirisquePro = lazy(() => import("./pages/MultirisquePro"));
 const FlotteAuto = lazy(() => import("./pages/FlotteAuto"));
 const RCPro = lazy(() => import("./pages/RCPro"));
+const DecennalePro = lazy(() => import("./pages/DecennalePro"));
 
 /* ===== Lazy Pages - Informations publiques ===== */
 const QuiSommesNous = lazy(() => import("./pages/QuiSommesNous"));
@@ -90,6 +91,7 @@ function App() {
             <Route path="/pro/multirisque" element={<MultirisquePro />} />
             <Route path="/pro/flotte-auto" element={<FlotteAuto />} />
             <Route path="/pro/rc-pro" element={<RCPro />} />
+            <Route path="/pro/decennale" element={<DecennalePro />} />
 
             {/* ==== Espace Client ==== */}
             <Route path="/espace-client" element={<EspaceClient />} />

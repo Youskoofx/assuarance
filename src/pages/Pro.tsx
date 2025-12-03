@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Heart, Shield, FileText, Building, Car, ArrowRight, Check } from 'lucide-react';
+import { Heart, Shield, FileText, Building, Car, ArrowRight, Check, HardHat } from 'lucide-react';
 
 export default function Pro() {
   const services = [
@@ -41,6 +41,18 @@ export default function Pro() {
         'Protection juridique'
       ],
       color: 'from-purple-500 to-pink-600'
+    },
+    {
+      icon: HardHat,
+      title: 'Garantie Décennale',
+      description: 'Assurez vos chantiers et couvrez votre responsabilité décennale obligatoire pour les métiers du BTP.',
+      features: [
+        'Responsabilité décennale travaux',
+        'Dommages aux ouvrages et solidité',
+        'Sous-traitants et co-traitants',
+        'Attestations rapides pour vos chantiers'
+      ],
+      color: 'from-amber-500 to-orange-600'
     },
     {
       icon: Building,

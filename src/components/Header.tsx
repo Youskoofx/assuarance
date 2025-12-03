@@ -34,6 +34,7 @@ export default function Header() {
       { label: "Santé TNS", path: "/pro/sante-tns" },
       { label: "Prévoyance Pro", path: "/pro/prevoyance-pro" },
       { label: "RC Pro", path: "/pro/rc-pro" },
+      { label: "Décennale", path: "/pro/decennale" },
       { label: "Multirisque Pro", path: "/pro/multirisque" },
       { label: "Flotte Auto", path: "/pro/flotte-auto" },
     ],
