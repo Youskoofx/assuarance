@@ -36,6 +36,7 @@ export default function Header() {
       { label: "RC Pro", path: "/pro/rc-pro" },
       { label: "Multirisque Pro", path: "/pro/multirisque" },
       { label: "Flotte Auto", path: "/pro/flotte-auto" },
+      
     ],
   };
 
