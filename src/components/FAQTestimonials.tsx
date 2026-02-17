@@ -79,6 +79,8 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function FAQTestimonials() {
+  const marqueeTestimonials = [...testimonials, ...testimonials];
+
   return (
     <>
       {/* FAQ Section */}
@@ -150,40 +152,42 @@ export default function FAQTestimonials() {
             <p className="text-gray-600">Basée sur 10 avis Google</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                className="bg-white shadow-lg rounded-2xl p-8 h-[280px] flex flex-col justify-between relative"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <div className="absolute top-4 right-4 text-6xl text-[#2DD4BF]/20 leading-none">"</div>
-                
-                <div>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-slate-700 leading-relaxed mb-6">
-                    "{testimonial.text}"
-                  </p>
-                </div>
+          <div className="overflow-hidden">
+            <motion.div
+              className="flex gap-6 w-max py-2"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            >
+              {marqueeTestimonials.map((testimonial, index) => (
+                <div
+                  key={`${testimonial.name}-${index}`}
+                  className="bg-white shadow-lg rounded-2xl p-6 sm:p-8 h-[270px] sm:h-[280px] w-[300px] sm:w-[360px] flex flex-col justify-between relative shrink-0"
+                >
+                  <div className="absolute top-4 right-4 text-6xl text-[#2DD4BF]/20 leading-none">"</div>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center text-[#2DD4BF] font-bold text-xl">
-                    {testimonial.name.split(' ').map(n => n[0]).join('')}
-                  </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">{testimonial.name}</h4>
-                    <p className="text-sm text-slate-500">Client vérifié</p>
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <p className="text-slate-700 leading-relaxed mb-6">
+                      "{testimonial.text}"
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-teal-100 flex items-center justify-center text-[#2DD4BF] font-bold text-lg sm:text-xl">
+                      {testimonial.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-900">{testimonial.name}</h4>
+                      <p className="text-sm text-slate-500">Client vérifié</p>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>

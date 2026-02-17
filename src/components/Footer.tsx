@@ -16,22 +16,22 @@ export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative bg-slate-950 text-white">
+    <footer className="relative bg-slate-950 text-white overflow-x-clip">
       {/* Accent top border */}
       <div className="h-[3px] w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500" />
 
       {/* Top CTA */}
       <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-9">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full md:w-auto justify-center md:justify-start text-center md:text-left">
               <img
                 src="/images/image.png"
                 alt="Prévoyance Services"
-                className="h-[60px] w-auto object-contain brightness-0 invert"
+                className="h-[48px] sm:h-[60px] w-auto object-contain brightness-0 invert shrink-0"
               />
               <div>
-                <p className="text-lg font-semibold leading-tight">
+                <p className="text-base sm:text-lg font-semibold leading-tight">
                   Prévoyance Services
                 </p>
                 <p className="text-slate-400 text-sm">
@@ -40,17 +40,17 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row w-full md:w-auto gap-3">
               <Button
                 asChild
-                className="px-6 bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600"
+                className="w-full sm:w-auto px-6 bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600"
               >
                 <Link to="/contact">Nous contacter</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="px-6 border-white/80 text-white hover:bg-white/10"
+                className="w-full sm:w-auto px-6 border-white/80 text-white hover:bg-white/10"
               >
                 <Link to="/devis">Demander un devis</Link>
               </Button>
@@ -60,7 +60,7 @@ export default function Footer() {
       </div>
 
       {/* Main grid */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Col 1 : Le groupe */}
           <nav className="lg:col-span-3" aria-label="Liens groupe">
@@ -235,13 +235,14 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6 justify-between">
             <p className="text-slate-400 text-sm text-center lg:text-left">
               © {new Date().getFullYear()} Prévoyance Services. Tous droits réservés.
             </p>
 
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full lg:w-auto">
+              <div className="grid grid-cols-2 sm:flex items-center gap-x-6 gap-y-2 justify-items-center w-full sm:w-auto">
               <Link
                 to="/mentions-legales"
                 className="text-slate-400 hover:text-teal-400 text-sm transition-colors"
@@ -266,6 +267,7 @@ export default function Footer() {
               >
                 Accessibilité
               </Link>
+              </div>
 
               <div className="flex items-center gap-3">
                 <a
@@ -275,7 +277,7 @@ export default function Footer() {
                   className="w-9 h-9 rounded-full bg-white/5 hover:bg-teal-600 text-white flex items-center justify-center transition-colors"
                   aria-label="Facebook"
                 >
-                  <Facebook className="w-4.5 h-4.5" />
+                  <Facebook className="w-4 h-4" />
                 </a>
                 <a
                   href="https://www.instagram.com/prevoyance.services/"
@@ -284,7 +286,7 @@ export default function Footer() {
                   className="w-9 h-9 rounded-full bg-white/5 hover:bg-teal-600 text-white flex items-center justify-center transition-colors"
                   aria-label="Instagram"
                 >
-                  <Instagram className="w-4.5 h-4.5" />
+                  <Instagram className="w-4 h-4" />
                 </a>
                 <a
                   href="https://linkedin.com/company/prevoyanceservices"
@@ -293,7 +295,7 @@ export default function Footer() {
                   className="w-9 h-9 rounded-full bg-white/5 hover:bg-teal-600 text-white flex items-center justify-center transition-colors"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin className="w-4.5 h-4.5" />
+                  <Linkedin className="w-4 h-4" />
                 </a>
               </div>
             </div>
