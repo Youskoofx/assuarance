@@ -1,13 +1,16 @@
 import { supabase } from "@/lib/supabase";
 
 export interface EmailPayload {
-  nom: string;
+  nom?: string;
   prenom?: string;
-  email: string;
+  email?: string;
   telephone?: string;
-  type_assurance: string;
+  type_assurance?: string;
   ville?: string;
   message?: string;
+  to?: string | string[];
+  template?: string;
+  data?: Record<string, unknown>;
 }
 
 interface EmailResponse {

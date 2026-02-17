@@ -540,3 +540,4 @@ export default function AssuranceDecennale() {
       </section>
     </div>
   );
+}
