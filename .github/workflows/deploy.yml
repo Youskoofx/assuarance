@@ -1,0 +1,52 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permet de lancer manuellement depuis l'onglet Actions
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        env:
+          VITE_SUPABASE_ENDPOINT: ${{ secrets.VITE_SUPABASE_ENDPOINT }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_ADMIN_EMAILS: ${{ secrets.VITE_ADMIN_EMAILS }}
+        run: npm run build
+
+      - name: Deploy via FTP to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          protocol: ftps
+          port: 21
+          # Garde les fichiers du serveur qui n'existent pas dans dist
+          # (utile si tu as des dossiers ajoutés manuellement)
+          dangerous-clean-slate: false
+          # Exclut les fichiers macOS / dev qui pourraient traîner
+          exclude: |
+            **/.DS_Store
+            **/.git*
+            **/node_modules/**

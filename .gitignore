@@ -30,5 +30,8 @@ dist-ssr
 
 core
 
-.github/
+# .env file with secrets — NEVER commit
+.env
+.env.local
+.env.*.local
 
