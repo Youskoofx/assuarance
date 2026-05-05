@@ -1,0 +1,76 @@
+# ============================================================
+#  Prévoyance Services — config Apache (Hostinger)
+# ============================================================
+
+# --- 1. Forcer HTTPS ---
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# --- 2. Forcer le www (optionnel : décommente si tu veux www.prevoyanceservices.fr) ---
+# RewriteCond %{HTTP_HOST} ^prevoyanceservices\.fr [NC]
+# RewriteRule ^(.*)$ https://www.prevoyanceservices.fr/$1 [L,R=301]
+
+# --- 3. Fallback SPA : toute URL non-fichier → index.html ---
+# Indispensable pour React Router (sinon /devis renvoie 404)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# --- 4. Compression Gzip (gain énorme sur le bundle JS) ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+</IfModule>
+
+# --- 5. Cache navigateur agressif sur les assets hashés ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Bundles hashés Vite : 1 an (le hash garantit le cache busting)
+  <FilesMatch "\.(js|css|woff2|woff|ttf|otf)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images : 6 mois
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    ExpiresDefault "access plus 6 months"
+    Header set Cache-Control "public, max-age=15552000"
+  </FilesMatch>
+
+  # HTML : pas de cache (sinon les users restent bloqués sur l'ancienne version)
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# --- 6. Headers de sécurité ---
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# --- 7. MIME types (au cas où Hostinger les manque) ---
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/json .json
+  AddType application/manifest+json .webmanifest
+  AddType image/svg+xml .svg
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>
+
+# --- 8. Empêche d'exposer les fichiers sensibles ---
+<FilesMatch "(^\.env|^\.git|composer\.(json|lock)|package(-lock)?\.json)">
+  Require all denied
+</FilesMatch>
