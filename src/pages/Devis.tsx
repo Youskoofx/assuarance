@@ -185,13 +185,13 @@ export default function Devis() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#050814] to-[#0b0f1a] flex flex-col text-slate-50">
       {/* Hero */}
-      <section className="h-[40vh] bg-gradient-to-r from-sky-600 to-cyan-500 flex flex-col justify-center items-center text-white text-center shadow-lg">
-        <h1 className="text-5xl font-bold mb-3 tracking-tight drop-shadow-lg">Demande de devis</h1>
-        <p className="text-lg opacity-90 max-w-2xl">Obtenez votre devis personnalisé en quelques minutes.</p>
+      <section className="min-h-[280px] sm:min-h-[320px] md:h-[40vh] bg-gradient-to-r from-sky-600 to-cyan-500 flex flex-col justify-center items-center text-white text-center shadow-lg px-4 py-12 md:py-0">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight drop-shadow-lg">Demande de devis</h1>
+        <p className="text-base sm:text-lg opacity-90 max-w-2xl">Obtenez votre devis personnalisé en quelques minutes.</p>
       </section>
 
       {/* Contenu principal */}
-      <section className="flex flex-col lg:flex-row justify-center items-start w-full max-w-7xl mx-auto mt-[-4rem] mb-16 px-6 gap-6">
+      <section className="flex flex-col lg:flex-row justify-center items-start w-full max-w-7xl mx-auto mt-[-3rem] sm:mt-[-4rem] mb-12 sm:mb-16 px-4 sm:px-6 gap-6">
         {/* Barre latérale */}
         <aside className="lg:w-64 bg-white/5 backdrop-blur-md rounded-3xl shadow-lg p-6 space-y-6 border border-white/10 animate-[fadeIn_.5s_ease]">
           {steps.map((s) => {

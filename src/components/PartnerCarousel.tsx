@@ -16,27 +16,27 @@ const partners = [
 
 export default function PartnerCarousel() {
   return (
-    <section className="py-24 bg-transparent backdrop-blur-0 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 sm:py-20 md:py-24 bg-transparent backdrop-blur-0 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-14 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-slate-900 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
             Nos partenaires de confiance
           </h2>
-          <p className="text-gray-600 text-xl">Votre garantie de qualité</p>
+          <p className="text-gray-600 text-base sm:text-lg md:text-xl">Votre garantie de qualité</p>
         </motion.div>
 
         {/* Infinite Slider */}
         <div className="relative">
           <div className="overflow-hidden">
             <motion.div
-              className="flex items-center gap-16"
+              className="flex items-center gap-10 sm:gap-12 md:gap-16"
               animate={{ x: [0, -1800] }}
               transition={{
                 x: { duration: 40, repeat: Infinity, ease: 'linear' },
@@ -59,7 +59,7 @@ export default function PartnerCarousel() {
                     src={partner.logo}
                     alt={partner.name}
                     title={partner.name}
-                    className="h-14 w-auto object-contain drop-shadow-lg transition-all duration-500"
+                    className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-lg transition-all duration-500"
                     loading="lazy"
                   />
                 </motion.div>

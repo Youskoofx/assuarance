@@ -43,8 +43,8 @@ const services = [
 
 export default function ValueProposition() {
   return (
-    <section id="services" className="py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-8">
+    <section id="services" className="py-16 sm:py-20 md:py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -56,7 +56,7 @@ export default function ValueProposition() {
           <span className="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
             Nos solutions
           </span>
-          <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-slate-900 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
             Des assurances sur mesure, pensées pour vous
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
@@ -65,11 +65,11 @@ export default function ValueProposition() {
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-400 overflow-hidden h-[580px] flex flex-col group"
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-400 overflow-hidden min-h-[520px] md:min-h-[580px] flex flex-col group"
               style={{
                 transform: 'perspective(1000px)',
               }}
@@ -83,7 +83,7 @@ export default function ValueProposition() {
               }}
             >
               {/* Image */}
-              <div className="h-[260px] overflow-hidden relative">
+              <div className="h-48 sm:h-56 md:h-[260px] overflow-hidden relative">
                 <img 
                   src={service.image} 
                   alt={service.title}

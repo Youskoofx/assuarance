@@ -84,9 +84,9 @@ export default function FAQTestimonials() {
   return (
     <>
       {/* FAQ Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
+      <section className="py-16 sm:py-20 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-10 md:gap-12 lg:gap-16">
             {/* Left Column - Sticky */}
             <motion.div
               className="lg:sticky lg:top-32 h-fit"
@@ -98,7 +98,7 @@ export default function FAQTestimonials() {
               <span className="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
                 Essentiel
               </span>
-              <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
+              <h2 className="text-slate-900 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
                 Tout savoir sur l'assurance
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
@@ -115,7 +115,7 @@ export default function FAQTestimonials() {
             </motion.div>
 
             {/* Right Column - Accordion */}
-            <div className="bg-white rounded-2xl p-8">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8">
               {faqs.map((faq, index) => (
                 <FAQItem key={index} {...faq} index={index} />
               ))}
@@ -125,8 +125,8 @@ export default function FAQTestimonials() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="py-16 sm:py-20 md:py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}

@@ -5,6 +5,7 @@ import ValueProposition from './ValueProposition';
 import ProductOfferings from './ProductOfferings';
 import Statistics from './Statistics';
 import PartnerCarousel from './PartnerCarousel';
+import ProSection from './ProSection';
 import FAQTestimonials from './FAQTestimonials';
 import NewsSection from './NewsSection';
 
@@ -24,6 +25,7 @@ function Home() {
         <ProductOfferings />
         <Statistics />
         <PartnerCarousel />
+        <ProSection />
         <FAQTestimonials />
         <NewsSection />
       </main>

@@ -34,7 +34,7 @@ export default function Header() {
       { label: "Santé TNS", path: "/pro/sante-tns" },
       { label: "Prévoyance Pro", path: "/pro/prevoyance-pro" },
       { label: "RC Pro", path: "/pro/rc-pro" },
-      { label: "Décennale", path: "/pro/decennale" },
+      { label: "Décennale", path: "/pro/assurance-decennale" },
       { label: "Multirisque Pro", path: "/pro/multirisque" },
       { label: "Flotte Auto", path: "/pro/flotte-auto" },
       
@@ -126,14 +126,14 @@ export default function Header() {
       ].join(" ")}
       style={{ transform: "translateZ(0)" }}
     >
-      <div className="max-w-7xl mx-auto px-8 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
               src="/images/image.png"
               alt="Prévoyance Services"
-              className={`h-[90px] md:h-[110px] w-auto object-contain transition-all ${
+              className={`h-14 sm:h-20 md:h-[110px] w-auto object-contain transition-all ${
                 solid ? "" : "brightness-0 invert"
               }`}
             />

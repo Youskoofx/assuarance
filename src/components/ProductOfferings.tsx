@@ -34,8 +34,8 @@ const steps = [
 
 export default function ProductOfferings() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 sm:py-20 md:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -47,7 +47,7 @@ export default function ProductOfferings() {
           <span className="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
             L'excellence à chaque étape
           </span>
-          <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-slate-900 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
             Votre tranquillité d'esprit, notre engagement
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
@@ -56,11 +56,11 @@ export default function ProductOfferings() {
         </motion.div>
 
         {/* Timeline Grid */}
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
-              className="bg-slate-50 border-2 border-teal-100 rounded-2xl p-8 hover:border-teal-500 hover:shadow-md transition-all duration-300 h-[380px] flex flex-col relative overflow-hidden group"
+              className="bg-slate-50 border-2 border-teal-100 rounded-2xl p-6 sm:p-8 hover:border-teal-500 hover:shadow-md transition-all duration-300 min-h-[320px] sm:min-h-[360px] md:min-h-[380px] flex flex-col relative overflow-hidden group"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

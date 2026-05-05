@@ -34,7 +34,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className="text-7xl font-bold text-white">
+    <span ref={ref} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
       {count}{suffix}
     </span>
   );
@@ -42,7 +42,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export default function Statistics() {
   return (
-    <section className="py-24 bg-gradient-to-br from-teal-600 via-cyan-600 to-teal-700 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-teal-600 via-cyan-600 to-teal-700 relative overflow-hidden">
       {/* Background Image Overlay */}
       <div 
         className="absolute inset-0 opacity-10 mix-blend-overlay"
@@ -53,7 +53,7 @@ export default function Statistics() {
         }}
       />
       
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-16"

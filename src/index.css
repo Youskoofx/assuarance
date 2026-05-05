@@ -8,23 +8,92 @@
   * {
     @apply border-border;
   }
-  
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
-  
+
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 400;
     line-height: 1.6;
     overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100svh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Empêche les images d'overflower leur conteneur (Safari/iOS) */
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Évite les texts coupés dans les flex children (Firefox/Safari) */
+  .flex > *,
+  .grid > * {
+    min-width: 0;
+  }
+
+  /* Inputs cross-browser : retire les styles natifs iOS */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* iOS : empêche le zoom auto sur input < 16px */
+  @supports (-webkit-touch-callout: none) {
+    input, textarea, select {
+      font-size: 16px;
+    }
+  }
+
+  /* Scrollbar discrète (WebKit) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.2);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.35);
+  }
+
+  /* Focus visible accessible */
+  :focus-visible {
+    outline: 2px solid #14b8a6;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   /* Respect reduced motion preferences */
@@ -44,50 +113,87 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Safe area iOS */
+  .safe-pt { padding-top: env(safe-area-inset-top); }
+  .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
+
+  /* Backdrop-filter cross-browser (Safari < 16, anciens) */
+  .backdrop-blur-safari,
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
   /* Animations personnalisées */
   @keyframes fade-in {
-    from { 
-      opacity: 0; 
-      transform: translateY(20px); 
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
-  
+
   .animate-fade-in {
     animation: fade-in 0.8s ease-out;
   }
-  
+
   .animate-fade-in-delay {
     animation: fade-in 0.8s ease-out 0.2s backwards;
   }
-  
+
   .animate-fade-in-delay-2 {
     animation: fade-in 0.8s ease-out 0.4s backwards;
   }
+
   .logo-3d:hover {
-  filter: drop-shadow(0 8px 12px rgba(0, 150, 136, 0.25));
-  transform: perspective(600px) rotateX(6deg) rotateY(-6deg) scale(1.1);
-}
-/* Masque 2px en bas du hero pour tuer toute “hairline” */
-.hero-seamless::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -1px; height: 2px;
-  /* dégradé quasi transparent pour couvrir la couture */
-  background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0));
-  pointer-events: none;
-}
+    filter: drop-shadow(0 8px 12px rgba(0, 150, 136, 0.25));
+    transform: perspective(600px) rotateX(6deg) rotateY(-6deg) scale(1.1);
+  }
 
-/* Isolation GPU pour éviter les coutures entre calques */
-header, section, footer {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+  /* Masque 2px en bas du hero pour tuer toute "hairline" */
+  .hero-seamless::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px; height: 2px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0));
+    pointer-events: none;
+  }
 
-/* Empêche une bordure entre deux sections adjacentes */
-section + section { border-top: none !important; }
-} 
+  /* Isolation GPU pour éviter les coutures entre calques */
+  header, section, footer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Empêche une bordure entre deux sections adjacentes */
+  section + section { border-top: none !important; }
+
+  /* Container utility cross-browser standardisé */
+  .container-page {
+    width: 100%;
+    max-width: 80rem; /* 1280px */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-page { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .container-page { padding-left: 2rem; padding-right: 2rem; }
+  }
+}

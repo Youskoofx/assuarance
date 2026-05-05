@@ -147,65 +147,99 @@ export default function AssuranceDecennale() {
 
   const labelClass = "text-sm font-medium text-slate-100 flex items-center gap-2";
   const inputClass =
-    "bg-white/10 border border-white/10 text-white placeholder:text-white/60 rounded-xl px-4 py-3 w-full focus-visible:ring-2 focus-visible:ring-indigo-400/70 focus-visible:border-indigo-300 transition";
+    "bg-white/10 border border-white/10 text-white placeholder:text-white/60 rounded-xl px-4 py-3 w-full focus-visible:ring-2 focus-visible:ring-teal-400/70 focus-visible:border-teal-300 transition";
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#764ba2] via-[#667eea] to-[#764ba2] px-6 py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.15),transparent_35%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(255,255,255,0.08),transparent_25%)]" />
-        <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-10">
-          <div className="flex-1 space-y-6">
-            <p className="inline-flex items-center gap-2 text-indigo-100 text-sm font-semibold bg-white/10 border border-white/20 rounded-full px-4 py-2">
-              <ShieldCheck className="w-4 h-4" />
-              Protection des professionnels du bâtiment
-            </p>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight drop-shadow-lg">
-              Assurance Décennale
-            </h1>
-            <p className="text-lg text-indigo-50/90 max-w-2xl">
-              Sécurisez vos chantiers et votre réputation avec une couverture décennale conçue pour
-              les artisans, entreprises générales et maîtres d'œuvre. Une protection solide, une
-              souscription rapide, un accompagnement expert.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-[#764ba2] to-[#667eea] text-white px-6 py-3 rounded-2xl hover:brightness-110 transition shadow-lg shadow-indigo-500/30"
-                onClick={() => document.getElementById("form-devis")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                Obtenir mon devis
-              </Button>
-              <div className="flex items-center gap-2 text-indigo-50/80">
-                <CheckCircle2 className="w-5 h-5" />
-                <span>Réponse sous 24h</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 w-full">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl">
-              <div className="flex items-center gap-3 text-indigo-50 mb-4">
-                <ShieldCheck className="w-6 h-6" />
-                <div>
-                  <p className="text-sm uppercase tracking-wide text-indigo-100/80">Couverture 10 ans</p>
-                  <p className="text-lg font-semibold">Responsabilité civile décennale</p>
+      {/* Hero avec photo BTP plein cadre */}
+      <section className="relative overflow-hidden min-h-[640px] sm:min-h-[680px] lg:min-h-[720px] flex items-center">
+        {/* Image de fond */}
+        <img
+          src="https://images.pexels.com/photos/8961065/pexels-photo-8961065.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          alt="Chantier de construction — assurance décennale"
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+        {/* Overlays pour lisibilité (compense aussi le header transparent) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-transparent" />
+
+        {/* Contenu — padding-top pour ne pas chevaucher le Header fixe */}
+        <div
+          className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
+          style={{ paddingTop: "calc(120px + env(safe-area-inset-top, 0px))" }}
+        >
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="space-y-5 sm:space-y-6">
+              <p className="inline-flex items-center gap-2 text-teal-200 text-xs sm:text-sm font-semibold bg-teal-400/10 border border-teal-300/30 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 backdrop-blur-sm">
+                <ShieldCheck className="w-4 h-4" />
+                Protection des professionnels du bâtiment
+              </p>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight drop-shadow-lg">
+                Assurance{" "}
+                <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                  Décennale
+                </span>
+              </h1>
+              <p className="text-base sm:text-lg text-slate-200 max-w-2xl leading-relaxed">
+                Sécurisez vos chantiers et votre réputation avec une couverture
+                décennale conçue pour les artisans, entreprises générales et maîtres
+                d'œuvre. Une protection solide, une souscription rapide, un
+                accompagnement expert.
+              </p>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4 pt-2">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 text-white px-6 py-3 rounded-xl shadow-lg shadow-teal-500/30 transition-all hover:scale-[1.02]"
+                  onClick={() =>
+                    document
+                      .getElementById("form-devis")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                >
+                  Obtenir mon devis
+                </Button>
+                <div className="flex items-center gap-2 text-slate-200">
+                  <CheckCircle2 className="w-5 h-5 text-teal-300" />
+                  <span>Réponse sous 24h</span>
                 </div>
               </div>
-              <ul className="space-y-3 text-indigo-50/90">
-                <li className="flex gap-2 items-start">
-                  <CheckCircle2 className="w-5 h-5 mt-0.5 text-emerald-300" />
-                  <span>Obligatoire pour la majorité des travaux de construction.</span>
-                </li>
-                <li className="flex gap-2 items-start">
-                  <CheckCircle2 className="w-5 h-5 mt-0.5 text-emerald-300" />
-                  <span>Prend en charge les dommages compromettant la solidité ou la destination de l'ouvrage.</span>
-                </li>
-                <li className="flex gap-2 items-start">
-                  <CheckCircle2 className="w-5 h-5 mt-0.5 text-emerald-300" />
-                  <span>Protège votre trésorerie et votre image auprès des clients.</span>
-                </li>
-              </ul>
+            </div>
+
+            <div className="w-full">
+              <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-5 sm:p-6 shadow-2xl">
+                <div className="flex items-center gap-3 text-white mb-4">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg shadow-teal-500/30">
+                    <ShieldCheck className="w-6 h-6 text-white" />
+                  </span>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-teal-200">
+                      Couverture 10 ans
+                    </p>
+                    <p className="text-base sm:text-lg font-semibold">
+                      Responsabilité civile décennale
+                    </p>
+                  </div>
+                </div>
+                <ul className="space-y-3 text-slate-100/95 text-sm sm:text-base">
+                  <li className="flex gap-2 items-start">
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 text-teal-300 flex-shrink-0" />
+                    <span>Obligatoire pour la majorité des travaux de construction.</span>
+                  </li>
+                  <li className="flex gap-2 items-start">
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 text-teal-300 flex-shrink-0" />
+                    <span>
+                      Prend en charge les dommages compromettant la solidité ou la
+                      destination de l'ouvrage.
+                    </span>
+                  </li>
+                  <li className="flex gap-2 items-start">
+                    <CheckCircle2 className="w-5 h-5 mt-0.5 text-teal-300 flex-shrink-0" />
+                    <span>Protège votre trésorerie et votre image auprès des clients.</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -215,7 +249,7 @@ export default function AssuranceDecennale() {
       <section className="bg-slate-900/60 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6">
-            <p className="text-indigo-300 font-semibold text-sm">Comprendre</p>
+            <p className="text-teal-300 font-semibold text-sm">Comprendre</p>
             <h2 className="text-3xl font-bold">Qu'est-ce que l'assurance décennale ?</h2>
             <p className="text-slate-200 leading-relaxed">
               L'assurance décennale couvre, pendant 10 ans après la réception des travaux, les
@@ -237,7 +271,7 @@ export default function AssuranceDecennale() {
                   key={item.label}
                   className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-2"
                 >
-                  <item.icon className="w-5 h-5 text-indigo-300" />
+                  <item.icon className="w-5 h-5 text-teal-300" />
                   <span className="text-sm text-slate-200">{item.label}</span>
                 </div>
               ))}
@@ -254,7 +288,7 @@ export default function AssuranceDecennale() {
                 key={item.title}
                 className="bg-white/5 border border-white/10 rounded-2xl p-4 shadow-lg flex gap-3"
               >
-                <item.icon className="w-6 h-6 text-indigo-300 shrink-0" />
+                <item.icon className="w-6 h-6 text-teal-300 shrink-0" />
                 <div>
                   <p className="font-semibold text-white">{item.title}</p>
                   <p className="text-sm text-slate-200/90">{item.desc}</p>
@@ -270,7 +304,7 @@ export default function AssuranceDecennale() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
             <div>
-              <p className="text-indigo-300 font-semibold text-sm">Public concerné</p>
+              <p className="text-teal-300 font-semibold text-sm">Public concerné</p>
               <h2 className="text-3xl font-bold">À qui s'adresse cette assurance ?</h2>
             </div>
           </div>
@@ -285,7 +319,7 @@ export default function AssuranceDecennale() {
                 key={item.title}
                 className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:-translate-y-1 transition transform shadow-lg"
               >
-                <item.icon className="w-6 h-6 text-indigo-300 mb-3" />
+                <item.icon className="w-6 h-6 text-teal-300 mb-3" />
                 <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-slate-200/90 leading-relaxed">{item.desc}</p>
               </div>
@@ -299,7 +333,7 @@ export default function AssuranceDecennale() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
             <div>
-              <p className="text-indigo-300 font-semibold text-sm">Garanties clés</p>
+              <p className="text-teal-300 font-semibold text-sm">Garanties clés</p>
               <h2 className="text-3xl font-bold">Ce qui est couvert</h2>
             </div>
           </div>
@@ -316,7 +350,7 @@ export default function AssuranceDecennale() {
                 key={item.title}
                 className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg hover:-translate-y-1 transition transform"
               >
-                <item.icon className="w-6 h-6 text-indigo-300 mb-3" />
+                <item.icon className="w-6 h-6 text-teal-300 mb-3" />
                 <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-slate-200/90 leading-relaxed">{item.desc}</p>
               </div>
@@ -329,7 +363,7 @@ export default function AssuranceDecennale() {
       <section id="form-devis" className="bg-slate-950 py-16 px-6">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
           <div className="space-y-6">
-            <p className="text-indigo-300 font-semibold text-sm">Demande en ligne</p>
+            <p className="text-teal-300 font-semibold text-sm">Demande en ligne</p>
             <h2 className="text-3xl font-bold">Obtenez votre devis</h2>
             <p className="text-slate-200 leading-relaxed">
               Remplissez ce formulaire, nous revenons vers vous sous 24h avec une proposition
@@ -346,7 +380,7 @@ export default function AssuranceDecennale() {
                   key={item.title}
                   className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-2"
                 >
-                  <item.icon className="w-5 h-5 text-indigo-300" />
+                  <item.icon className="w-5 h-5 text-teal-300" />
                   <span className="text-sm text-slate-200">{item.title}</span>
                 </div>
               ))}
@@ -494,7 +528,7 @@ export default function AssuranceDecennale() {
             <Button
               disabled={loading}
               onClick={onSubmit}
-              className="w-full bg-gradient-to-r from-[#764ba2] to-[#667eea] text-white font-semibold py-3 rounded-xl shadow-lg shadow-indigo-500/30 hover:scale-[1.01] transition"
+              className="w-full bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 text-white font-semibold py-3 rounded-xl shadow-lg shadow-teal-500/30 hover:scale-[1.01] transition"
             >
               {loading ? "Envoi en cours..." : "Envoyer ma demande"}
             </Button>
@@ -518,7 +552,7 @@ export default function AssuranceDecennale() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
             <div>
-              <p className="text-indigo-300 font-semibold text-sm">Pourquoi nous</p>
+              <p className="text-teal-300 font-semibold text-sm">Pourquoi nous</p>
               <h2 className="text-3xl font-bold">Pourquoi choisir Prévoyance Services ?</h2>
             </div>
           </div>
@@ -530,7 +564,7 @@ export default function AssuranceDecennale() {
               { icon: Star, title: "Meilleurs tarifs", desc: "Optimisation des garanties et du budget." },
             ].map((item) => (
               <div key={item.title} className="bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg">
-                <item.icon className="w-6 h-6 text-indigo-300 mb-3" />
+                <item.icon className="w-6 h-6 text-teal-300 mb-3" />
                 <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-slate-200/90 leading-relaxed">{item.desc}</p>
               </div>

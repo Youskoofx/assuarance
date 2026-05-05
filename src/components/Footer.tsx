@@ -63,7 +63,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Col 1 : Le groupe */}
-          <nav className="lg:col-span-3" aria-label="Liens groupe">
+          <nav className="lg:col-span-2" aria-label="Liens groupe">
             <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
               Le groupe
             </h3>
@@ -161,7 +161,48 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Col 4 : IARD */}
+          {/* Col 4 : Pro */}
+          <nav className="lg:col-span-2" aria-label="Liens professionnels">
+            <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
+              Professionnels
+            </h3>
+            <ul className="mt-4 space-y-2.5">
+              <li>
+                <Link
+                  to="/pro/assurance-decennale"
+                  className="text-slate-300 hover:text-teal-400 transition-colors"
+                >
+                  Décennale
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pro/rc-pro"
+                  className="text-slate-300 hover:text-teal-400 transition-colors"
+                >
+                  RC Pro
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pro/multirisque"
+                  className="text-slate-300 hover:text-teal-400 transition-colors"
+                >
+                  Multirisque Pro
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pro/flotte-auto"
+                  className="text-slate-300 hover:text-teal-400 transition-colors"
+                >
+                  Flotte Auto
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Col 5 : IARD */}
           <nav className="lg:col-span-2" aria-label="Liens IARD">
             <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
               IARD
@@ -194,8 +235,8 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Col 5 : Contact */}
-          <div className="lg:col-span-3">
+          {/* Col 6 : Contact */}
+          <div className="lg:col-span-2">
             <h3 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
               Nous contacter
             </h3>

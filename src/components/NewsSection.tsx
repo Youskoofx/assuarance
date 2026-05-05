@@ -40,8 +40,8 @@ const previewArticles = [
 
 export default function NewsSection() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 sm:py-20 md:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -53,7 +53,7 @@ export default function NewsSection() {
           <span className="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
             Actualités
           </span>
-          <h2 className="text-slate-900 text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-slate-900 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
             Restez informé des nouveautés !
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
